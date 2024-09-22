@@ -111,7 +111,7 @@ io.on("connection", (socket) => {
   });
 });
 
-app.post("/forgot-password", async (req, res) => {
+app.post("/api/forgot-password", async (req, res) => {
   const { email } = req.body;
   console.log(email);
   try {
@@ -123,7 +123,7 @@ app.post("/forgot-password", async (req, res) => {
     const token = jwt.sign({ email: oldUser.email, id: oldUser._id }, secret, {
       expiresIn: "5m",
     });
-    const link = `/reset-password/${oldUser._id}/${token}`;
+    const link = `/api/reset-password/${oldUser._id}/${token}`; // Updated link for consistency
     let transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -150,10 +150,14 @@ app.post("/forgot-password", async (req, res) => {
       }
     });
     console.log(link);
-  } catch (error) {}
+    res.json({ status: "Reset Link Sent" }); // Add a response here
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ status: "Internal Server Error" }); // Handle errors
+  }
 });
 
-app.get("/reset-password/:id/:token", async (req, res) => {
+app.get("/api/reset-password/:id/:token", async (req, res) => {
   const { id, token } = req.params;
   console.log(req.params);
 
@@ -162,11 +166,9 @@ app.get("/reset-password/:id/:token", async (req, res) => {
     return res.json({ status: "User Not Exists!!" });
   }
 
-  const secret = JWT_SECRET;
+  const secret = process.env.JWT_SECRET + oldUser.password; // Added for consistency
   try {
     const verify = jwt.verify(token, secret);
-    
-    // Redirect to the frontend URL with query parameters
     res.redirect(`/reset-password?email=${verify.email}&status=not-verified`);
   } catch (error) {
     console.log(error);
@@ -174,8 +176,7 @@ app.get("/reset-password/:id/:token", async (req, res) => {
   }
 });
 
-
-app.post("/reset-password/:id/:token", async (req, res) => {
+app.post("/api/reset-password/:id/:token", async (req, res) => {
   const { id, token } = req.params;
   const { password } = req.body;
 
@@ -183,24 +184,18 @@ app.post("/reset-password/:id/:token", async (req, res) => {
   if (!oldUser) {
     return res.json({ status: "User Not Exists!!" });
   }
-  
-  const secret = JWT_SECRET;
+
+  const secret = process.env.JWT_SECRET + oldUser.password; // Added for consistency
   try {
     const verify = jwt.verify(token, secret);
-    
-    // Encrypt the new password
     const encryptedPassword = await bcrypt.hash(password, 10);
     
-    // Update the user's password
     await User.updateOne(
       { _id: id },
       { $set: { password: encryptedPassword } }
     );
 
-    // Respond with a success message or redirect URL
     res.json({ status: "Password Updated Successfully", email: verify.email });
-    // Or if you want to redirect, you can use:
-    res.redirect(`/login?status=reset-success`);
   } catch (error) {
     console.log(error);
     res.json({ status: "Something Went Wrong" });

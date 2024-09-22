@@ -21,18 +21,18 @@ const ResetPassword = () => {
       return;
     }
 
-    // Optionally set a success message
-    setMessage("Reset Password Succeeded");
-
     // Send the reset password request to the server
     try {
-      const response = await axios.post(`/reset-password/${id}/${token}`, {
+      const response = await axios.post(`/api/reset-password/${id}/${token}`, {
         password,
       });
+
       if (response.data.status === "Password Updated Successfully") {
         navigate("/login", {
           state: { message: "Reset Password Succeeded" },
         });
+      } else {
+        setMessage(response.data.status); // Show status from the server
       }
     } catch (error) {
       console.error("Error resetting password:", error);
@@ -42,7 +42,7 @@ const ResetPassword = () => {
 
   return (
     <div className="form-container">
-      {message && <Message variant="success">{message}</Message>}
+      {message && <Message variant={message.includes("Succeeded") ? "success" : "error"}>{message}</Message>}
       <form onSubmit={handleSubmit}>
         <input
           type="password"

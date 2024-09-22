@@ -64,16 +64,16 @@ app.post("/api/forgot-password", async (req, res) => {
     });
     const link = `https://mgpost.onrender.com/api/reset-password/${oldUser._id}/${token}`;
     
-    let transporter = nodemailer.createTransport({
+    let transporter = nodemailer.createTransport(smtpTransport({
       service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false,
       auth: {
-        type: 'OAuth2',
-        user: process.env.MAIL_USERNAME, // Your email
-        clientId: process.env.OAUTH_CLIENTID, // Your client ID
-        clientSecret: process.env.OAUTH_CLIENT_SECRET, // Your client secret
-        refreshToken: process.env.OAUTH_REFRESH_TOKEN, // Your refresh token
-      },
-    });
+        user: process.env.MAIL_USERNAME,
+        pass: process.env.MAIL_APP_PASSWORD
+      }
+    }));
     
     
     const mailOptions = {
@@ -83,7 +83,13 @@ app.post("/api/forgot-password", async (req, res) => {
       text: link,
     };
 
-    await transporter.sendMail(mailOptions);
+    await transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });  ;
     console.log("Email sent successfully:", link);
     res.json({ status: "Reset Link Sent" });
   } catch (error) {

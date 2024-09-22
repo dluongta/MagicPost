@@ -19,10 +19,14 @@ const ForgotPassword = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('/api/forgot-password', {
+            let response = await   axios.post('/api/forgot-password', {
                 email: resetEmail,
-            });            
-            setMessage("Reset Password Mail Sent");
+            });
+            if (response.status === 200) {
+                setMessage("Reset Password Mail Sent");
+            } else {
+                setMessage("Unexpected response. Please try again.");
+            }            
         } catch (error) {
             console.error("Error:", error.response ? error.response.data : error.message);
             setMessage("Error sending email. Please try again.");

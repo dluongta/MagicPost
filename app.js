@@ -35,7 +35,10 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(express.json())
 app.use(cors())
-
+app.use(cors({
+  origin: 'https://mgpost.onrender.com/', // Update this to your frontend URL
+  credentials: true,
+}));
 
 
 app.use('/api/posts', postRoutes)
@@ -44,33 +47,6 @@ app.use("/api/room", chatRoomRoutes);
 app.use("/api/message", chatMessageRoutes);
 
 
-const __dirname = path.resolve()
-
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '/frontend/build')))
-
-  app.get('*', (req, res) =>
-    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
-  )
-} else {
-  app.get('/', (req, res) => {
-    res.send('API is running....')
-  })
-}
-
-app.use(notFound)
-app.use(errorHandler)
-
-
-const PORT = process.env.PORT || 5000
-
-const server = app.listen(
-  PORT,
-  console.log(
-    `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`
-  )
-)
-
 const io = new Server(server, {
   cors: {
     origin: "https://mgpost.onrender.com/",
@@ -78,38 +54,6 @@ const io = new Server(server, {
   },
 });
 
-
-global.onlineUsers = new Map();
-
-const getKey = (map, val) => {
-  for (let [key, value] of map.entries()) {
-    if (value === val) return key;
-  }
-};
-
-io.on("connection", (socket) => {
-  global.chatSocket = socket;
-
-  socket.on("addUser", (userId) => {
-    onlineUsers.set(userId, socket.id);
-    socket.emit("getUsers", Array.from(onlineUsers));
-  });
-
-  socket.on("sendMessage", ({ senderId, receiverId, message }) => {
-    const sendUserSocket = onlineUsers.get(receiverId);
-    if (sendUserSocket) {
-      socket.to(sendUserSocket).emit("getMessage", {
-        senderId,
-        message,
-      });
-    }
-  });
-
-  socket.on("disconnect", () => {
-    onlineUsers.delete(getKey(onlineUsers, socket.id));
-    socket.emit("getUsers", Array.from(onlineUsers));
-  });
-});
 
 app.post("/api/forgot-password", async (req, res) => {
   const { email } = req.body;
@@ -199,4 +143,67 @@ app.post("/api/reset-password/:id/:token", async (req, res) => {
   }
 });
 
+
+
+
+const __dirname = path.resolve()
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '/frontend/build')))
+
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+  )
+} else {
+  app.get('/', (req, res) => {
+    res.send('API is running....')
+  })
+}
+
+app.use(notFound)
+app.use(errorHandler)
+
+
+const PORT = process.env.PORT || 5000
+
+const server = app.listen(
+  PORT,
+  console.log(
+    `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`
+  )
+)
+
+
+
+global.onlineUsers = new Map();
+
+const getKey = (map, val) => {
+  for (let [key, value] of map.entries()) {
+    if (value === val) return key;
+  }
+};
+
+io.on("connection", (socket) => {
+  global.chatSocket = socket;
+
+  socket.on("addUser", (userId) => {
+    onlineUsers.set(userId, socket.id);
+    socket.emit("getUsers", Array.from(onlineUsers));
+  });
+
+  socket.on("sendMessage", ({ senderId, receiverId, message }) => {
+    const sendUserSocket = onlineUsers.get(receiverId);
+    if (sendUserSocket) {
+      socket.to(sendUserSocket).emit("getMessage", {
+        senderId,
+        message,
+      });
+    }
+  });
+
+  socket.on("disconnect", () => {
+    onlineUsers.delete(getKey(onlineUsers, socket.id));
+    socket.emit("getUsers", Array.from(onlineUsers));
+  });
+});
 

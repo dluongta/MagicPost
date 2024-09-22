@@ -123,7 +123,7 @@ app.post("/api/forgot-password", async (req, res) => {
     const token = jwt.sign({ email: oldUser.email, id: oldUser._id }, secret, {
       expiresIn: "5m",
     });
-    const link = `/api/reset-password/${oldUser._id}/${token}`; // Updated link for consistency
+    const link = `https://mgpost.onrender.com/api/reset-password/${oldUser._id}/${token}`; // Updated link for consistency
     let transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {

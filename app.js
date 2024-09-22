@@ -104,10 +104,9 @@ app.get("/api/reset-password/:id/:token", async (req, res) => {
     return res.json({ status: "User Not Exists!!" });
   }
 
-  const secret = process.env.JWT_SECRET + oldUser.password; // Added for consistency
+  const secret = process.env.JWT_SECRET;
   try {
     const verify = jwt.verify(token, secret);
-    res.redirect(`/reset-password?email=${verify.email}&status=not-verified`);
   } catch (error) {
     console.log(error);
     res.send("Not Verified");
@@ -123,7 +122,7 @@ app.post("/api/reset-password/:id/:token", async (req, res) => {
     return res.json({ status: "User Not Exists!!" });
   }
 
-  const secret = process.env.JWT_SECRET + oldUser.password; // Added for consistency
+  const secret = process.env.JWT_SECRET; 
   try {
     const verify = jwt.verify(token, secret);
     const encryptedPassword = await bcrypt.hash(password, 10);

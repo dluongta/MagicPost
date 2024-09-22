@@ -27,10 +27,11 @@ const ResetPassword = () => {
         password,
       });
 
-      if (response.data.status === "Password Updated Successfully") {
+      if (response.data.status === "Password Updated Succeeded") {
         navigate("/login", {
           state: { message: "Reset Password Succeeded" },
         });
+        setMessage(response.data.status);
       } else {
         setMessage(response.data.status); // Show status from the server
       }

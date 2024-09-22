@@ -8,7 +8,6 @@ import cors from 'cors'
 import postRoutes from './routes/postRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 import { Server } from "socket.io";
-import cors from 'cors'
 
 import { VerifyToken, VerifySocketToken } from "./middleware/authMiddleware.js";
 
@@ -27,7 +26,6 @@ dotenv.config()
 connectDB()
 
 const app = express()
-app.use(cors());
 
 
 if (process.env.NODE_ENV === 'development') {

@@ -19,7 +19,7 @@ const ForgotPassword = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('https://mgpost.onrender.com/api/forgot-password', {
+            await axios.post('/api/forgot-password', {
                 email: resetEmail,
             });            
             setMessage("Reset Password Mail Sent");

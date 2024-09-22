@@ -113,17 +113,18 @@ io.on("connection", (socket) => {
 
 app.post("/api/forgot-password", async (req, res) => {
   const { email } = req.body;
-  console.log(email);
+  console.log("Received email:", email);
   try {
     const oldUser = await User.findOne({ email });
     if (!oldUser) {
-      return res.json({ status: "User Not Exists!!" });
+      return res.status(404).json({ status: "User Not Exists!!" });
     }
     const secret = process.env.JWT_SECRET + oldUser.password;
     const token = jwt.sign({ email: oldUser.email, id: oldUser._id }, secret, {
       expiresIn: "5m",
     });
-    const link = `https://mgpost.onrender.com/api/reset-password/${oldUser._id}/${token}`; // Updated link for consistency
+    const link = `https://mgpost.onrender.com/api/reset-password/${oldUser._id}/${token}`;
+    
     let transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -135,27 +136,23 @@ app.post("/api/forgot-password", async (req, res) => {
         refreshToken: process.env.OAUTH_REFRESH_TOKEN
       }
     });
-    var mailOptions = {
+    
+    const mailOptions = {
       from: process.env.MAIL_USERNAME,
       to: email,
       subject: "Password Reset",
       text: link,
     };
 
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log("Email sent: " + info.response);
-      }
-    });
-    console.log(link);
-    res.json({ status: "Reset Link Sent" }); // Add a response here
+    await transporter.sendMail(mailOptions);
+    console.log("Email sent successfully:", link);
+    res.json({ status: "Reset Link Sent" });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ status: "Internal Server Error" }); // Handle errors
+    console.error("Error occurred:", error);
+    res.status(500).json({ status: "Internal Server Error", error: error.message });
   }
 });
+
 
 app.get("/api/reset-password/:id/:token", async (req, res) => {
   const { id, token } = req.params;

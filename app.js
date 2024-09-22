@@ -77,6 +77,24 @@ app.post("/api/forgot-password", async (req, res) => {
       subject: "Password Reset",
       text: link,
     };
+    let transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        type: 'OAuth2',
+        user: process.env.MAIL_USERNAME, // Your email
+        clientId: process.env.OAUTH_CLIENTID, // Your client ID
+        clientSecret: process.env.OAUTH_CLIENT_SECRET, // Your client secret
+        refreshToken: process.env.OAUTH_REFRESH_TOKEN, // Your refresh token
+      },
+    });
+    
+    
+    const mailOptions = {
+      from: process.env.MAIL_USERNAME,
+      to: email,
+      subject: "Password Reset",
+      text: link,
+    };
 
     await transporter.sendMail(mailOptions);
     console.log("Email sent successfully:", link);

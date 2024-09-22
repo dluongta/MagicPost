@@ -47,12 +47,7 @@ app.use("/api/room", chatRoomRoutes);
 app.use("/api/message", chatMessageRoutes);
 
 
-const io = new Server(server, {
-  cors: {
-    origin: "https://mgpost.onrender.com/",
-    credentials: true,
-  },
-});
+
 
 
 app.post("/api/forgot-password", async (req, res) => {
@@ -173,7 +168,12 @@ const server = app.listen(
   )
 )
 
-
+const io = new Server(server, {
+  cors: {
+    origin: "https://mgpost.onrender.com/",
+    credentials: true,
+  },
+});
 
 global.onlineUsers = new Map();
 

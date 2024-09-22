@@ -79,7 +79,8 @@ app.post("/api/forgot-password", async (req, res) => {
           from: process.env.MAIL_USERNAME,
           to: email,
           subject: "Password Reset",
-          text: `Click this link to reset your password: ${link}`,
+          html: `<p>Click this link to reset your password:</p>
+           <a href="${link}">${link}</a>`,
       };
 
       // Send the email

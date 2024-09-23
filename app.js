@@ -65,8 +65,6 @@ app.post("/api/forgot-password", async (req, res) => {
       html: `
         <p>Click this link to reset your password:</p>
         <a href="${link}" target="_blank">${link}</a>
-        <p>If the link doesn't work, copy and paste the following URL into your browser:</p>
-        <p>${link}</p>
       `,
     };
 

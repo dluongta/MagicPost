@@ -65,8 +65,12 @@ app.post("/api/forgot-password", async (req, res) => {
       from: process.env.MAIL_USERNAME,
       to: email,
       subject: "Password Reset",
-      html: `<p>Click this link to reset your password:</p>
-             <a href="${link}">${link}</a>`,
+      html: `
+        <p>Click this link to reset your password:</p>
+        <a href="${link}" target="_blank">${link}</a>
+        <p>If the link doesn't work, copy and paste the following URL into your browser:</p>
+        <p>${link}</p>
+      `,
     };
 
     // Send the email
@@ -92,7 +96,7 @@ app.get("/api/reset-password/:id/:token", async (req, res) => {
   const secret = process.env.JWT_SECRET + oldUser.password; // Ensure secret consistency
   try {
     const verify = jwt.verify(token, secret);
-    res.redirect(`/reset-password?email=${verify.email}&status=not-verified`); // Redirect to frontend
+    res.redirect(`/api/reset-password/${id}/${token}}?id=${id}&token=${token}`); // Redirect to frontend
   } catch (error) {
     console.log("Token verification error:", error);
     res.status(403).send("Not Verified");

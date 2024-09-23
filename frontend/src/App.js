@@ -45,7 +45,7 @@ function App() {
       <Route path='/admin/user/:id/edit' element={<UserEditScreen/>} />
       <Route path='/receipt' element={<ReceiptPrint/>} />
       <Route path='/forgot-password' element={<ForgotPassword/>} />
-      <Route path='/reset-password/:id/:token' element={<ResetPassword/>} />
+      <Route path='/api/reset-password/:id/:token' element={<ResetPassword/>} />
 
       <Route
             exact

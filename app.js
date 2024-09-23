@@ -13,10 +13,9 @@ import chatMessageRoutes from "./routes/chatMessage.js";
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
 import User from './models/userModel.js';
-import bcrypt from 'bcrypt'; // Ensure bcrypt is imported
+import bcrypt from 'bcrypt';
 
 dotenv.config();
-
 connectDB();
 
 const app = express();
@@ -27,7 +26,7 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(express.json());
 app.use(cors({
-  origin: 'https://mgpost.onrender.com/', // Update this to your frontend URL
+  origin: 'https://mgpost.onrender.com/',
   credentials: true,
 }));
 
@@ -47,9 +46,7 @@ app.post("/api/forgot-password", async (req, res) => {
     }
 
     const secret = process.env.JWT_SECRET + oldUser.password; // Ensure secret consistency
-    const token = jwt.sign({ email: oldUser.email, id: oldUser._id }, secret, {
-      expiresIn: "5m",
-    });
+    const token = jwt.sign({ email: oldUser.email, id: oldUser._id }, secret, { expiresIn: "5m" });
     const link = `https://mgpost.onrender.com/api/reset-password/${oldUser._id}/${token}`;
 
     // Create a transporter using Nodemailer
@@ -73,7 +70,6 @@ app.post("/api/forgot-password", async (req, res) => {
       `,
     };
 
-    // Send the email
     await transporter.sendMail(mailOptions);
     console.log("Email sent successfully:", link);
     res.json({ status: "Reset Link Sent" });
@@ -96,10 +92,11 @@ app.get("/api/reset-password/:id/:token", async (req, res) => {
   const secret = process.env.JWT_SECRET + oldUser.password; // Ensure secret consistency
   try {
     const verify = jwt.verify(token, secret);
-    res.redirect(`/api/reset-password/${id}/${token}}?id=${id}&token=${token}`); // Redirect to frontend
+    // Redirect to the frontend reset password page
+    res.redirect(`/reset-password/${id}/${token}`);
   } catch (error) {
     console.log("Token verification error:", error);
-    res.status(403).send("Not Verified");
+    res.status(403).json({ status: "Not Verified", error: error.message });
   }
 });
 
@@ -125,7 +122,7 @@ app.post("/api/reset-password/:id/:token", async (req, res) => {
     res.json({ status: "Password Updated Successfully", email: verify.email });
   } catch (error) {
     console.log("Error during password reset:", error);
-    res.status(500).json({ status: "Something Went Wrong" });
+    res.status(500).json({ status: "Something Went Wrong", error: error.message });
   }
 });
 

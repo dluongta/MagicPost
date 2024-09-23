@@ -42,28 +42,30 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="form-container">
-      {message && <Message variant={message.includes("Succeeded") ? "success" : "error"}>{message}</Message>}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          className="box"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        /><br />
-        <input
-          type="password"
-          name="confirm-password"
-          placeholder="Confirm Password"
-          className="box"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-        /><br />
-        <input type="submit" className="btn" value="Submit" />
-      </form>
-    </div>
+    <>
+      {message && <Message variant='success'>{message}</Message>}
+      <div className="form-container">
+        <form onSubmit={handleSubmit}>
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            className="box"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          /><br />
+          <input
+            type="password"
+            name="confirm-password"
+            placeholder="Confirm Password"
+            className="box"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          /><br />
+          <input type="submit" className="btn" value="Submit" />
+        </form>
+      </div>
+    </>
   );
 };
 

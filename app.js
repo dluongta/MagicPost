@@ -132,7 +132,7 @@ app.post("/api/reset-password/:id/:token", async (req, res) => {
       { $set: { password: encryptedPassword } }
     );
 
-    res.json({ status: "Password Updated Successfully", email: verify.email });
+    res.json({ status: "Password Updated Succeeded", email: verify.email });
   } catch (error) {
     console.log(error);
     res.json({ status: "Something Went Wrong" });

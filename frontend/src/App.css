@@ -388,6 +388,8 @@ body {
   font-weight: 400; /* Normal weight */
   margin-left: 0.5rem; /* Spacing between the email and label */
 }
+iframe { border: none; width: 100%; height: 500px; }
+
 
 
 

@@ -2,6 +2,7 @@ import React from 'react'
 
 const Feature = () => {
   return (
+    <>
     <div class="feature">
         <h1 style={{textAlign : 'center'}}>Features</h1>
         <div class="boxContainer">
@@ -56,6 +57,8 @@ const Feature = () => {
 
         </div>
     </div>
+    <iframe src="https://luen2003.github.io/Rubik.html"></iframe>
+    </>
   )
 }
 

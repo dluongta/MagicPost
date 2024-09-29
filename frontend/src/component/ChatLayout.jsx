@@ -27,7 +27,6 @@ export default function ChatLayout() {
     initiateSocketConnection,
     getAllUsers,
     getChatRooms,
-    markAllMessagesAsRead, // Ensure this is available from your API context
   } = useApi();
 
   useEffect(() => {

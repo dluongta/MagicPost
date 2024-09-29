@@ -12,7 +12,6 @@ export default function ChatRoom({ currentChat, currentUser, socket }) {
     const {
         getMessagesOfChatRoom,
         sendMessage,
-        markAllMessagesAsRead, // Function to mark messages as read
     } = useApi();
 
     // Fetch messages when the current chat changes
@@ -20,14 +19,13 @@ export default function ChatRoom({ currentChat, currentUser, socket }) {
         const fetchData = async () => {
             const res = await getMessagesOfChatRoom(currentChat._id);
             setMessages(res);
-            // Scroll to bottom and mark as read on chat change
-            markAllMessagesAsRead(currentChat._id);
+
         };
 
         if (currentChat) {
             fetchData();
         }
-    }, [currentChat, getMessagesOfChatRoom, markAllMessagesAsRead]);
+    }, [currentChat, getMessagesOfChatRoom]);
 
     useEffect(() => {
         // Scroll to the bottom whenever messages change

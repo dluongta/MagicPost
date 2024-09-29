@@ -14,41 +14,21 @@ export default function ChatLayout() {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [chatRooms, setChatRooms] = useState([]);
   const [filteredRooms, setFilteredRooms] = useState([]);
-
   const [currentChat, setCurrentChat] = useState();
   const [onlineUsersId, setOnlineUsersId] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-
   const [isContact, setIsContact] = useState(false);
 
   const socket = useRef();
-  const scrollRef = useRef(); // Define scrollRef
+  const scrollRef = useRef();
 
   const { currentUser } = useAuth();
   const {
     initiateSocketConnection,
     getAllUsers,
-    getUser,
     getChatRooms,
-    createChatRoom,
-    markAllMessagesAsRead, // Function to mark all messages as read
+    markAllMessagesAsRead, // Ensure this is available from your API context
   } = useApi();
-
-  // Attach the scroll event
-  useEffect(() => {
-    const chatContainer = scrollRef.current;
-    const handleScroll = () => {
-      if (currentChat) {
-        axios.put(`/api/messages/mark-as-read/${currentChat._id}`, {});
-      }
-    };
-    chatContainer?.addEventListener('scroll', handleScroll);
-    return () => {
-      if (chatContainer) {
-        chatContainer.removeEventListener('scroll', handleScroll);
-      }
-    };
-  }, [currentChat]);
 
   useEffect(() => {
     const getSocket = async () => {
@@ -94,20 +74,21 @@ export default function ChatLayout() {
 
   const handleChatChange = async (chat) => {
     setCurrentChat(chat);
-    // Mark all messages as read when changing chat
-    await markAllMessagesAsRead(chat._id);
+    try {
+      // Mark messages as read when changing chat
+      await axios.put(`/api/message/mark-as-read/${chat._id}`, {});
+    } catch (error) {
+      console.error("Error marking messages as read:", error);
+    }
   };
 
   const handleSearch = (newSearchQuery) => {
     setSearchQuery(newSearchQuery);
-
     const searchedUsers = users.filter((user) =>
       user.email?.toLowerCase().includes(newSearchQuery.toLowerCase())
     );
 
     const searchedUsersId = searchedUsers.map((u) => u._id);
-
-    // If there are initial contacts
     if (chatRooms.length !== 0) {
       chatRooms.forEach((chatRoom) => {
         const isUserContact = chatRoom.members.some(
@@ -146,7 +127,7 @@ export default function ChatLayout() {
               currentChat={currentChat}
               currentUser={currentUser}
               socket={socket}
-              scrollRef={scrollRef} // Pass scrollRef to ChatRoom if needed
+              scrollRef={scrollRef}
             />
           ) : (
             <Welcome />

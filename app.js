@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(express.json());
 app.use(cors({
-  origin: 'https://mgpost.onrender.com/',
+  origin: 'https://mgpost.onrender.com',
   credentials: true,
 }));
 

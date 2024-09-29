@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 
-import { useApi} 
-from "../services/ChatService";
+import { useApi }
+  from "../services/ChatService";
 
 import Message from "./Message";
 import Contact from "./Contact";
@@ -24,6 +24,7 @@ export default function ChatRoom({ currentChat, currentUser, socket }) {
 
 
   const scrollRef = useRef();
+
 
   useEffect(() => {
     const getSocket = async () => {
@@ -68,23 +69,26 @@ export default function ChatRoom({ currentChat, currentUser, socket }) {
   }, [incomingMessage]);
 
   const handleFormSubmit = async (message) => {
-    const receiverId = currentChat.members.find(
-      (member) => member !== currentUser._id
-    );
+    const handleFormSubmit = async (message) => {
+      const receiverId = currentChat.members.find(
+        (member) => member !== currentUser._id
+      );
 
-    socket.current.emit("sendMessage", {
-      senderId: currentUser._id,
-      receiverId: receiverId,
-      message: message,
-    });
+      socket.current.emit("sendMessage", {
+        senderId: currentUser._id,
+        receiverId: receiverId,
+        message: message,
+      });
 
-    const messageBody = {
-      chatRoomId: currentChat._id,
-      sender: currentUser._id,
-      message: message,
+      const messageBody = {
+        chatRoomId: currentChat._id,
+        sender: currentUser._id,
+        message: message,
+        isRead: false,
+      };
+      const res = await sendMessage(messageBody);
+      setMessages([...messages, res]);
     };
-    const res = await sendMessage(messageBody);
-    setMessages([...messages, res]);
   };
 
   return (

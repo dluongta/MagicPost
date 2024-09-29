@@ -5,6 +5,7 @@ const ChatMessageSchema = mongoose.Schema(
     chatRoomId: String,
     sender: String,
     message: String,
+    isRead: { type: Boolean, default: true },
   },
   { timestamps: true }
 );

@@ -14,13 +14,13 @@ export default function ChatLayout() {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [chatRooms, setChatRooms] = useState([]);
   const [filteredRooms, setFilteredRooms] = useState([]);
-  
+
   const [currentChat, setCurrentChat] = useState();
   const [onlineUsersId, setOnlineUsersId] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  
+
   const [isContact, setIsContact] = useState(false);
-  
+
   const socket = useRef();
   const scrollRef = useRef(); // Define scrollRef
 
@@ -31,21 +31,24 @@ export default function ChatLayout() {
     getUser,
     getChatRooms,
     createChatRoom,
+    markAllMessagesAsRead, // Function to mark all messages as read
   } = useApi();
-
-  const handleScroll = () => {
-    const bottom = scrollRef.current.scrollHeight === scrollRef.current.scrollTop + scrollRef.current.clientHeight;
-    if (bottom) {
-      axios.put(`/api/messages/mark-as-read/${currentChat._id}`, {});
-    }
-  };
 
   // Attach the scroll event
   useEffect(() => {
     const chatContainer = scrollRef.current;
+    const handleScroll = () => {
+      if (currentChat) {
+        axios.put(`/api/messages/mark-as-read/${currentChat._id}`, {});
+      }
+    };
     chatContainer?.addEventListener('scroll', handleScroll);
-    return () => chatContainer.removeEventListener('scroll', handleScroll);
-  }, []);
+    return () => {
+      if (chatContainer) {
+        chatContainer.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, [currentChat]);
 
   useEffect(() => {
     const getSocket = async () => {
@@ -89,8 +92,10 @@ export default function ChatLayout() {
     }
   }, [isContact]);
 
-  const handleChatChange = (chat) => {
+  const handleChatChange = async (chat) => {
     setCurrentChat(chat);
+    // Mark all messages as read when changing chat
+    await markAllMessagesAsRead(chat._id);
   };
 
   const handleSearch = (newSearchQuery) => {

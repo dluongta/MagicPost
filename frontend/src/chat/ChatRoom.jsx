@@ -1,115 +1,101 @@
 import { useState, useEffect, useRef } from "react";
-
-import { useApi }
-  from "../services/ChatService";
-
+import { useApi } from "../services/ChatService";
 import Message from "./Message";
 import Contact from "./Contact";
 import ChatForm from "./ChatForm";
 
 export default function ChatRoom({ currentChat, currentUser, socket }) {
-  const [messages, setMessages] = useState([]);
-  const [incomingMessage, setIncomingMessage] = useState(null);
-  const [onlineUsersId, setonlineUsersId] = useState([]);
-  const {
-    initiateSocketConnection,
-    getAllUsers,
-    getUser,
-    getChatRooms,
-    getChatRoomOfUsers,
-    createChatRoom,
-    getMessagesOfChatRoom,
-    sendMessage,
-  } = useApi();
+    const [messages, setMessages] = useState([]);
+    const [incomingMessage, setIncomingMessage] = useState(null);
+    const messagesEndRef = useRef(); // Ref to scroll to the bottom of the messages
 
+    const {
+        getMessagesOfChatRoom,
+        sendMessage,
+        markAllMessagesAsRead, // Function to mark messages as read
+    } = useApi();
 
-  const scrollRef = useRef();
+    // Fetch messages when the current chat changes
+    useEffect(() => {
+        const fetchData = async () => {
+            const res = await getMessagesOfChatRoom(currentChat._id);
+            setMessages(res);
+            // Scroll to bottom and mark as read on chat change
+            markAllMessagesAsRead(currentChat._id);
+        };
 
+        if (currentChat) {
+            fetchData();
+        }
+    }, [currentChat, getMessagesOfChatRoom, markAllMessagesAsRead]);
 
-  useEffect(() => {
-    const getSocket = async () => {
-      const res = await initiateSocketConnection();
-      socket.current = res;
-      socket.current.emit("addUser", currentUser._id);
-      socket.current.on("getUsers", (users) => {
-        const userId = users.map((u) => u[0]);
-        setonlineUsersId(userId);
-      });
+    useEffect(() => {
+        // Scroll to the bottom whenever messages change
+        //scrollToBottom();
+    }, [messages]);
+
+    // Scrolls the chat container to the bottom
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     };
 
-    getSocket();
-  }, [currentUser._id]);
+    useEffect(() => {
+        // Listening for incoming messages
+        socket.current?.on("getMessage", (data) => {
+            setIncomingMessage({
+                senderId: data.senderId,
+                message: data.message,
+            });
+        });
+    }, [socket]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await getMessagesOfChatRoom(currentChat._id);
-      setMessages(res);
-    };
+    useEffect(() => {
+        // Update messages with incoming messages
+        if (incomingMessage) {
+            setMessages((prev) => [...prev, incomingMessage]);
+        }
+    }, [incomingMessage]);
 
-    fetchData();
-  }, [currentChat._id]);
-
-  useEffect(() => {
-    scrollRef.current?.scrollIntoView({
-      behavior: "smooth",
-    });
-  }, [messages]);
-
-  useEffect(() => {
-    socket.current?.on("getMessage", (data) => {
-      setIncomingMessage({
-        senderId: data.senderId,
-        message: data.message,
-      });
-    });
-  }, [socket]);
-
-  useEffect(() => {
-    incomingMessage && setMessages((prev) => [...prev, incomingMessage]);
-  }, [incomingMessage]);
-
-  const handleFormSubmit = async (message) => {
     const handleFormSubmit = async (message) => {
-      const receiverId = currentChat.members.find(
-        (member) => member !== currentUser._id
-      );
+        const receiverId = currentChat.members.find(
+            (member) => member !== currentUser._id
+        );
 
-      socket.current.emit("sendMessage", {
-        senderId: currentUser._id,
-        receiverId: receiverId,
-        message: message,
-      });
+        // Emit the message to the socket
+        socket.current.emit("sendMessage", {
+            senderId: currentUser._id,
+            receiverId: receiverId,
+            message: message,
+        });
 
-      const messageBody = {
-        chatRoomId: currentChat._id,
-        sender: currentUser._id,
-        message: message,
-        isRead: false,
-      };
-      const res = await sendMessage(messageBody);
-      setMessages([...messages, res]);
+        const messageBody = {
+            chatRoomId: currentChat._id,
+            sender: currentUser._id,
+            message: message,
+            isRead: false, // Initially set to false
+        };
+
+        const res = await sendMessage(messageBody);
+        setMessages((prev) => [...prev, res]);
     };
-  };
 
-  return (
-    <div className="lg:col-span-2 lg:block">
-      <div className="w-full">
-        <div className="p-3 bg-white border-b border-gray-200 dark:bg-gray-900 dark:border-gray-700">
-          <Contact chatRoom={currentChat} onlineUsersId={onlineUsersId} currentUser={currentUser} />
+    return (
+        <div className="lg:col-span-2 lg:block">
+            <div className="w-full">
+                <div className="p-3 bg-white border-b border-gray-200 dark:bg-gray-900 dark:border-gray-700">
+                    <Contact chatRoom={currentChat} />
+                </div>
+                <div className="relative w-full p-6 overflow-y-auto h-[30rem] bg-white border-b border-gray-200 dark:bg-gray-900 dark:border-gray-700">
+                    <ul className="space-y-2">
+                        {messages.map((message, index) => (
+                            <Message key={index} message={message} self={currentUser._id} />
+                        ))}
+                    </ul>
+                    {/* Invisible div to serve as a scroll target */}
+                    <div ref={messagesEndRef} />
+                </div>
+                <ChatForm handleFormSubmit={handleFormSubmit} />
+            </div>
         </div>
-
-        <div className="relative w-full p-6 overflow-y-auto h-[30rem] bg-white border-b border-gray-200 dark:bg-gray-900 dark:border-gray-700">
-          <ul className="space-y-2">
-            {messages.map((message, index) => (
-              <div key={index} ref={scrollRef}>
-                <Message message={message} self={currentUser._id} />
-              </div>
-            ))}
-          </ul>
-        </div>
-
-        <ChatForm handleFormSubmit={handleFormSubmit} />
-      </div>
-    </div>
-  );
+    );
 }

@@ -77,6 +77,14 @@ export const useApi = () => {
     }
   };
 
+  const markAllMessagesAsRead = async (chatRoomId) => {
+    try {
+        await axios.put(`/api/messages/mark-as-read/${chatRoomId}`);
+    } catch (error) {
+        console.error("Error marking messages as read:", error);
+    }
+};
+
   const createChatRoom = async (members) => {
     const header = createHeader();
 
@@ -119,6 +127,7 @@ export const useApi = () => {
     createChatRoom,
     getMessagesOfChatRoom,
     sendMessage,
+    markAllMessagesAsRead
   };
 };
 

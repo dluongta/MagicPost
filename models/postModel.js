@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
 const postSchema = mongoose.Schema(
   {
@@ -8,24 +8,29 @@ const postSchema = mongoose.Schema(
       ref: 'User',
     },
     postItem: {
-      type:String,
-      required:true,
-      default:"",
+      type: String,
+      required: true,
+      default: "",
     },
     recipient: {
-      type:String,
-      required:true,
-      default:"",
+      type: String,
+      required: true,
+      default: "",
     },
     sender: {
-      type:String,
-      required:true,
-      default:"",
+      type: String,
+      required: true,
+      default: "",
     },
     senderEmail: {
-      type:String,
-      required:true,
-      default:"",
+      type: String,
+      required: true,
+      default: "",
+    },
+    price: { // Add the price field
+      type: Number,
+      required: true,
+      default: 0,
     },
     isDelivered: {
       type: Boolean,
@@ -39,8 +44,8 @@ const postSchema = mongoose.Schema(
   {
     timestamps: true,
   }
-)
+);
 
-const Post = mongoose.model('Post', postSchema)
+const Post = mongoose.model('Post', postSchema);
 
-export default Post
+export default Post;

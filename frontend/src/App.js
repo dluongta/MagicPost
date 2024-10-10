@@ -25,6 +25,7 @@ import UserListScreen from './UserListScreen';
 import ReceiptPrint from './ReceiptPrint';
 import ForgotPassword from './layouts/ForgotPassword';
 import ResetPassword from './component/ResetPassword';
+import InvoicePrint from './component/InvoicePrint';
 
 function App() {
   return (  
@@ -56,6 +57,7 @@ function App() {
               </WithPrivateRoute>
             }
         />
+        <Route path='/print/:id' element={<InvoicePrint/>}/>
 
     </Routes>
     </Router>

@@ -29,7 +29,6 @@ const Header = () => {
         <div className="navbar-links">
           <ul>
             {userInfo ? <li><a href="#">Username: {userInfo.name}</a></li> : <li><a href="/login">Login</a></li>}
-            <li><a href="/receipt">Invoice</a></li>
             <li><a href="/chat" >Chat</a></li>
             {userInfo && <li><a href="/profile">Profile</a></li>}
             {userInfo && <li><a href="#" onClick={logoutHandler}>Logout</a></li>}

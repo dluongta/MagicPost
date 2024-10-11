@@ -389,6 +389,82 @@ body {
   margin-left: 0.5rem; /* Spacing between the email and label */
 }
 iframe { border: none; width: 100%; height: 500px; }
+@media only screen and (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navbar-links ul {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .navbar-links li {
+    text-align: center;
+  }
+
+  .navbar-links li a {
+    padding: 0.5rem 1rem;
+  }
+
+  .navSidebar {
+    width: 200px; /* Reduced width for mobile */
+    transform: translateY(0); /* Show sidebar */
+    position: static; /* Change position for mobile */
+    padding-top: 20px; /* Adjust padding */
+  }
+
+  .content {
+    margin-left: 0; /* Reset margin for mobile */
+    padding: 1rem; /* Add padding */
+    padding-top: 100px; /* Ensure top padding */
+  }
+
+  .grid {
+    grid-template-columns: 1fr; /* Stack items in one column */
+  }
+
+  .branding {
+    padding: 40px 0; /* Reduce padding */
+  }
+
+  .form-container form {
+    width: 90%; /* Full width on mobile */
+    padding: 15px; /* Reduced padding */
+  }
+
+  .card {
+    width: 100%; /* Full width on mobile */
+    height: auto; /* Allow height to adjust */
+  }
+
+  .main {
+    flex-direction: column; /* Stack columns */
+  }
+
+  .main .left,
+  .main .right {
+    width: 100%; /* Full width for both sections */
+  }
+
+  .right .containerImage {
+    margin-left: 0; /* Reset margin */
+    width: 100%; /* Full width on mobile */
+  }
+
+  .main h1 {
+    font-size: 24px; /* Adjust font size */
+  }
+
+  .main p {
+    font-size: 18px; /* Adjust font size */
+  }
+
+  .btn {
+    font-size: 18px; /* Adjust button font size */
+  }
+}
 
 
 

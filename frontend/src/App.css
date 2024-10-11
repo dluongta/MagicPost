@@ -22,6 +22,8 @@ ul {
 body {
   margin: 0;
   padding: 0;
+  display: flex; /* Sử dụng flexbox cho body */
+  flex-direction: column; /* Để xếp theo chiều dọc */
 }
 
 .navbar {
@@ -31,10 +33,105 @@ body {
   background-color: #333;
   color: #fff;
   z-index: 100;
-  overflow: auto;
   width: 100%;
-
+  position: fixed; /* Để navbar luôn ở trên cùng */
+  top: 0;
+  left: 0;
+  padding: 1rem; /* Thêm padding */
 }
+
+.leftmenuinnerinner {
+  display: flex; /* Sử dụng flex để bố trí sidebar và nội dung */
+  margin-top: 80px; /* Để tránh che khuất bởi navbar */
+}
+
+.navSidebar {
+  width: 250px; /* Chiều rộng sidebar */
+  height: calc(100vh - 80px); /* Chiều cao sidebar */
+  background-color: aliceblue;
+  padding-top: 20px;
+  position: fixed; /* Đặt sidebar cố định */
+  top: 80px; /* Để tránh che khuất navbar */
+  left: 0;
+}
+
+.content {
+  margin-left: 250px; /* Để nội dung không bị che khuất bởi sidebar */
+  padding: 20px; /* Thêm padding cho nội dung */
+  width: calc(100% - 250px); /* Để nội dung chiếm phần còn lại */
+}
+
+/* Các phần khác của CSS giữ nguyên */
+@media only screen and (max-width: 768px) {
+  .navbar {
+    padding: 0.5rem;
+  }
+
+  .navSidebar {
+    width: 100%; /* Chiếm toàn bộ chiều rộng */
+    height: auto; /* Chiều cao tự động */
+    padding-top: 10px; /* Thay đổi padding */
+    position: relative; /* Để sidebar cuộn cùng với nội dung */
+    top: 60px; /* Để tránh che khuất navbar */
+  }
+
+  .content {
+    margin-left: 0; /* Không có lề trái cho nội dung */
+    padding: 20px; /* Thêm padding cho nội dung */
+    width: 100%; /* Chiếm toàn bộ chiều rộng */
+  }
+
+  .leftmenuinnerinner {
+    flex-direction: column; /* Xếp theo chiều dọc */
+    margin-top: 60px; /* Giảm khoảng cách trên */
+    overflow-y: auto; /* Cho phép cuộn nếu nội dung dài */
+  }
+
+  .navSidebar li {
+    margin-top: 10px; /* Điều chỉnh khoảng cách giữa các mục */
+    padding: 10px; /* Thêm padding cho mục */
+  }
+
+  .menu li {
+    padding-bottom: 0.5rem; /* Giảm padding dưới cho mục */
+    padding-right: 10px;
+    width: 100%; /* Đảm bảo chiếm toàn bộ chiều rộng */
+  }
+
+  /* Đẩy các phần tử trong innerinnerleft xuống dưới */
+  .innerinnerleft {
+    margin-top: 20px; /* Đẩy xuống dưới */
+  }
+  .menu {
+    margin-top: 10rem;
+  }
+}
+
+
+@media only screen and (max-width: 468px) {
+  .navSidebar {
+    width: 100%; /* Chiếm toàn bộ chiều rộng */
+    top: 60px; /* Để tránh che khuất navbar */
+  }
+
+  .content {
+    margin-left: 0; /* Không có lề trái cho nội dung */
+    padding-top: 10px; /* Thay đổi padding cho phù hợp */
+  }
+
+  .navbar-links li a {
+    padding: 0.5rem; /* Giảm padding cho các liên kết */
+  }
+
+  .navbar-links {
+    padding: 0; /* Giảm padding */
+  }
+
+  .navbar-links ul {
+    padding: 0; /* Giảm padding */
+  }
+}
+
 
 .brand-title {
   margin: 0.8rem;
@@ -389,82 +486,6 @@ body {
   margin-left: 0.5rem; /* Spacing between the email and label */
 }
 iframe { border: none; width: 100%; height: 500px; }
-@media only screen and (max-width: 768px) {
-  .navbar {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .navbar-links ul {
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .navbar-links li {
-    text-align: center;
-  }
-
-  .navbar-links li a {
-    padding: 0.5rem 1rem;
-  }
-
-  .navSidebar {
-    width: 200px; /* Reduced width for mobile */
-    transform: translateY(0); /* Show sidebar */
-    position: static; /* Change position for mobile */
-    padding-top: 20px; /* Adjust padding */
-  }
-
-  .content {
-    margin-left: 0; /* Reset margin for mobile */
-    padding: 1rem; /* Add padding */
-    padding-top: 100px; /* Ensure top padding */
-  }
-
-  .grid {
-    grid-template-columns: 1fr; /* Stack items in one column */
-  }
-
-  .branding {
-    padding: 40px 0; /* Reduce padding */
-  }
-
-  .form-container form {
-    width: 90%; /* Full width on mobile */
-    padding: 15px; /* Reduced padding */
-  }
-
-  .card {
-    width: 100%; /* Full width on mobile */
-    height: auto; /* Allow height to adjust */
-  }
-
-  .main {
-    flex-direction: column; /* Stack columns */
-  }
-
-  .main .left,
-  .main .right {
-    width: 100%; /* Full width for both sections */
-  }
-
-  .right .containerImage {
-    margin-left: 0; /* Reset margin */
-    width: 100%; /* Full width on mobile */
-  }
-
-  .main h1 {
-    font-size: 24px; /* Adjust font size */
-  }
-
-  .main p {
-    font-size: 18px; /* Adjust font size */
-  }
-
-  .btn {
-    font-size: 18px; /* Adjust button font size */
-  }
-}
 
 
 

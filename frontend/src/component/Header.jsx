@@ -2,9 +2,15 @@ import logo from '../assets/header.jpeg'
 import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../actions/userActions'
+import { useState } from 'react'
 
 const Header = () => {
   const dispatch = useDispatch()
+  const [isMenuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpen(!isMenuOpen);
+  };
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
@@ -22,31 +28,33 @@ const Header = () => {
       <marquee>Chào mừng đến với MagicPost</marquee>
       <nav className="navbar">
         <div className="brand-title">
-        <Link to='/'><img width={95} height={60} src={logo} /></Link>
+          <Link to='/'><img width={95} height={60} src={logo} alt="Logo" /></Link>
           <p><Link to='/'>Magic Post</Link></p>
         </div>
 
-        <div className="navbar-links">
+        <div className="navbar-toggle" onClick={toggleMenu}>
+          <span className="bar"></span>
+          <span className="bar"></span>
+          <span className="bar"></span>
+        </div>
+
+        <div className={`navbar-links ${isMenuOpen ? 'active' : ''}`}>
           <ul>
-            {userInfo ? <li><a href="#">Username: {userInfo.name}</a></li> : <li><a href="/login">Login</a></li>}
-            <li><a href="/chat" >Chat</a></li>
-            {userInfo && <li><a href="/profile">Profile</a></li>}
+            {userInfo ? <li><a href="#">Username: {userInfo.name}</a></li> : <li><Link to="/login">Login</Link></li>}
+            <li><Link to="/chat">Chat</Link></li>
+            {userInfo && <li><Link to="/profile">Profile</Link></li>}
             {userInfo && <li><a href="#" onClick={logoutHandler}>Logout</a></li>}
-            
-
-
           </ul>
         </div>
       </nav>
-      <div className='lefmenuinnerinner'>
+
+      <div className='leftmenuinnerinner'>
         <div className='navSidebar'>
           <h1>Menu</h1>
           <ul className='menu'>
-            <li><Link to='/search'>Tim kiem</Link></li>
-            {userInfo && userInfo.isAdmin && <li><Link to='/admin/postlist'>Quan ly don hang</Link></li>}
-            {userInfo && userInfo.isAdmin && <li><Link to='/admin/userlist'>Quan ly nguoi dung</Link></li>}
-
-
+            <li><Link to='/search'>Tìm kiếm</Link></li>
+            {userInfo && userInfo.isAdmin && <li><Link to='/admin/postlist'>Quản lý đơn hàng</Link></li>}
+            {userInfo && userInfo.isAdmin && <li><Link to='/admin/userlist'>Quản lý người dùng</Link></li>}
           </ul>
         </div>
       </div>

@@ -21,7 +21,7 @@ const UserListScreen = () => {
   const { success: successDelete } = userDelete
 
   useEffect(() => {
-    if (userInfo && userInfo.isAdmin) {
+    if (userInfo) {
       dispatch(listUsers())
     } else {
       navigate('/login')
@@ -38,7 +38,7 @@ const UserListScreen = () => {
     <div className='container'>
       <h1>Users</h1>
       {loading ? (
-        <Loader />
+        <p>Loading...</p>
       ) : error ? (
         <Message variant='danger'>{error}</Message>
       ) : (

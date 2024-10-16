@@ -24,13 +24,23 @@ const Register = () => {
         if (userInfo) {
           // Fetch user details if needed
           const fetchUserDetails = async () => {
-            const { data } = await axios.get(`/api/users/${userInfo._id}`);
-            if (!data.isValidated) {
-              navigate('/verify-page');
-            } else {
+            try {
+              const { data } = await axios.get(`/api/users/${userInfo._id}`, {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem('token')}`, // hoặc tùy thuộc vào cách bạn lưu token
+                },
+              });
+              if (!data.isValidated) {
+                navigate('/verify-page');
+              } else {
                 navigate('/');
+              }
+            } catch (error) {
+              console.error('Error fetching user details:', error);
+              setMessage('Failed to fetch user details.');
             }
           };
+          
           
           fetchUserDetails();
         }

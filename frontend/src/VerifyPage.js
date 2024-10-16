@@ -10,7 +10,7 @@ const VerifyPage = () => {
     if (!email) return;
 
     try {
-      const response = await fetch('https://mgpost.onrender.com/resend-verification', {
+      const response = await fetch('/resend-verification', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

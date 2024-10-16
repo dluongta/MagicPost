@@ -18,16 +18,19 @@ const Login = () => {
   const { loading, error, userInfo } = userLogin;
 
   const redirect = window.location.search ? window.location.search.split('=')[1] : '/';
+  
   useEffect(() => {
     if (userInfo) {
       // Fetch user details if needed
       const fetchUserDetails = async () => {
         try {
+          // Sử dụng ID từ userInfo để fetch
           const { data } = await axios.get(`/api/users/${userInfo._id}`, {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`, // hoặc tùy thuộc vào cách bạn lưu token
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
             },
           });
+          
           if (!data.isValidated) {
             navigate('/verify-page');
           } else {
@@ -38,13 +41,10 @@ const Login = () => {
           setMessage('Failed to fetch user details.');
         }
       };
-      
-      
+
       fetchUserDetails();
     }
   }, [userInfo, redirect, navigate]);
-  
-
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -91,6 +91,7 @@ const Login = () => {
           <input type="submit" name="submit" className="btn" value="login now" />
           <p>Don't have an account? <a href="/register">Sign up</a></p>
           <p>Forgot password? <a href="/forgot-password" onClick={forgotPasswordHandler}>Reset Password</a></p>
+          <p>Verify Your Account? <a href="/verify-page">Verify Now</a></p>
         </form>
       </div>
     </>

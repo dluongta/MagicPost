@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from './component/Message';
 import { register } from './actions/userActions';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
 const Register = () => {
     const [name, setName] = useState('');
@@ -22,30 +21,14 @@ const Register = () => {
 
     useEffect(() => {
         if (userInfo) {
-          // Fetch user details if needed
-          const fetchUserDetails = async () => {
-            try {
-              const { data } = await axios.get(`/api/users/${userInfo._id}`, {
-                headers: {
-                  Authorization: `Bearer ${localStorage.getItem('token')}`, // hoặc tùy thuộc vào cách bạn lưu token
-                },
-              });
-              if (!data.isValidated) {
-                navigate('/verify-page');
-              } else {
-                navigate('/');
-              }
-            } catch (error) {
-              console.error('Error fetching user details:', error);
-              setMessage('Failed to fetch user details.');
+            // Check if the user is validated
+            if (!userInfo.isValidated) {
+                navigate('/verify-page'); // Redirect to verification page
+            } else {
+                navigate('/login');
             }
-          };
-          
-          
-          fetchUserDetails();
         }
-      }, [userInfo, redirect, navigate]);
-      
+    }, [userInfo, navigate]);
 
     const submitHandler = (e) => {
         e.preventDefault();

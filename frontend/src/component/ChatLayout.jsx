@@ -31,32 +31,6 @@ export default function ChatLayout() {
     getChatRooms,
   } = useApi();
 
-  // Redirect to verification page if user is not validated
-  useEffect(() => {
-    if (currentUser) {
-      // Fetch user details if needed
-      const fetchUserDetails = async () => {
-        try {
-          const { data } = await axios.get(`/api/users/${currentUser._id}`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`, // hoặc tùy thuộc vào cách bạn lưu token
-            },
-          });
-          if (!data.isValidated) {
-            navigate('/verify-page');
-          } else {
-            navigate('/chat');
-          }
-        } catch (error) {
-          console.error('Error fetching user details:', error);
-        }
-      };
-      
-      
-      fetchUserDetails();
-    }
-  }, [currentUser, navigate]);
-
   useEffect(() => {
     const getSocket = async () => {
       const res = await initiateSocketConnection();

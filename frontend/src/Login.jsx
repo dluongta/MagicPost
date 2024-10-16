@@ -3,6 +3,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from './actions/userActions';
 import Message from './component/Message';
+import axios from 'axios';
 
 const Login = () => {
   const location = useLocation();
@@ -17,17 +18,23 @@ const Login = () => {
   const { loading, error, userInfo } = userLogin;
 
   const redirect = window.location.search ? window.location.search.split('=')[1] : '/';
-
   useEffect(() => {
     if (userInfo) {
-      // Check if the user is validated
-      if (!userInfo.isValidated) {
-        navigate('/verify-page'); // Redirect to verification page
-      } else {
-        window.location.href = redirect; // Redirect to the intended page
-      }
+      // Fetch user details if needed
+      const fetchUserDetails = async () => {
+        const { data } = await axios.get(`/api/users/${userInfo._id}`);
+        if (!data.isValidated) {
+          navigate('/verify-page');
+        } else {
+          navigate('/');
+        }
+      };
+      
+      fetchUserDetails();
     }
   }, [userInfo, redirect, navigate]);
+  
+
 
   const submitHandler = (e) => {
     e.preventDefault();

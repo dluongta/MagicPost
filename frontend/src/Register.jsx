@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from './component/Message';
 import { register } from './actions/userActions';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Register = () => {
     const [name, setName] = useState('');
@@ -21,14 +22,20 @@ const Register = () => {
 
     useEffect(() => {
         if (userInfo) {
-            // Check if the user is validated
-            if (!userInfo.isValidated) {
-                navigate('/verify-page'); // Redirect to verification page
+          // Fetch user details if needed
+          const fetchUserDetails = async () => {
+            const { data } = await axios.get(`/api/users/${userInfo._id}`);
+            if (!data.isValidated) {
+              navigate('/verify-page');
             } else {
-                window.location.href = redirect; // Redirect to the intended page
+                navigate('/');
             }
+          };
+          
+          fetchUserDetails();
         }
-    }, [userInfo, redirect, navigate]);
+      }, [userInfo, redirect, navigate]);
+      
 
     const submitHandler = (e) => {
         e.preventDefault();

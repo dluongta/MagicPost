@@ -13,17 +13,28 @@ import CTA from './component/CTA';
 import Testimonial from './component/Testimonial';
 import Contact from './component/Contact';
 import Pricing from './component/Pricing';
+import axios from 'axios';
 
 const Homepage = () => {
   const { currentUser } = useAuth();
   const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
-    // Check if the user is not validated
-    if (currentUser && !currentUser.isValidated) {
-      navigate('/verify-page'); // Redirect to the verification page
+    if (currentUser) {
+      // Fetch user details if needed
+      const fetchUserDetails = async () => {
+        const { data } = await axios.get(`/api/users/${currentUser._id}`);
+        if (!data.isValidated) {
+          navigate('/verify-page');
+        } else {
+          navigate('/');
+        }
+      };
+      
+      fetchUserDetails();
     }
-  }, [currentUser, navigate]);
+  }, [navigate]);
+  
 
   return (
     <>

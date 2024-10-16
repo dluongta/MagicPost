@@ -33,8 +33,18 @@ export default function ChatLayout() {
 
   // Redirect to verification page if user is not validated
   useEffect(() => {
-    if (currentUser && !currentUser.isValidated) {
-      navigate('/verify-page'); // Redirect to verification page
+    if (currentUser) {
+      // Fetch user details if needed
+      const fetchUserDetails = async () => {
+        const { data } = await axios.get(`/api/users/${currentUser._id}`);
+        if (!data.isValidated) {
+          navigate('/verify-page');
+        } else {
+          navigate('/chat');
+        }
+      };
+      
+      fetchUserDetails();
     }
   }, [currentUser, navigate]);
 

@@ -21,11 +21,20 @@ const userSchema = mongoose.Schema(
       required: true,
       default: false,
     },
+    isValidated: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    validationToken: {
+      type: String,
+    },
   },
   {
     timestamps: true,
   }
-)
+);
+
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password)

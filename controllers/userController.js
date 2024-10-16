@@ -1,6 +1,8 @@
 import asyncHandler from 'express-async-handler';
 import generateToken from '../utils/generateToken.js';
 import User from '../models/userModel.js';
+import jwt from 'jsonwebtoken'; // Ensure this import is present
+import nodemailer from 'nodemailer'; // Ensure this import is present
 
 // @desc    Auth user & get token
 // @route   POST /api/users/login
@@ -9,6 +11,9 @@ const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
+  if (!user || !user.isValidated) {
+    return res.status(401).json({ message: "Account Not Validated" });
+  }
 
   if (user && (await user.matchPassword(password))) {
     res.json({
@@ -37,24 +42,52 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error('User already exists');
   }
 
-  const user = await User.create({
+  const user = await User({
     name,
     email,
     password,
   });
 
-  if (user) {
-    res.status(201).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
-      token: generateToken(user._id),
+  // Generate validation token
+  const validationToken = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: "1d" });
+  user.validationToken = validationToken;
+
+  await user.save();
+
+  const link = `https://mgpost.onrender.com/api/validate/${validationToken}`;
+
+  // Send validation email
+  let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.MAIL_USERNAME,
+      pass: process.env.MAIL_APP_PASSWORD,
+    },
+  });
+
+  const mailOptions = {
+    from: process.env.MAIL_USERNAME,
+    to: email,
+    subject: "Account Verification",
+    html: `Click this link to verify your account: <a href="${link}">${link}</a>`,
+  };
+
+  await transporter.sendMail(mailOptions);
+  
+  // Redirect user if account is not validated
+  if (!user.isValidated) {
+    return res.status(201).json({
+      message: "Registration successful! Check your email to verify your account."
     });
-  } else {
-    res.status(400);
-    throw new Error('Invalid user data');
   }
+
+  res.status(201).json({
+    _id: user._id,
+    name: user.name,
+    email: user.email,
+    isAdmin: user.isAdmin,
+    token: generateToken(user._id),
+  });
 });
 
 // @desc    Get user profile

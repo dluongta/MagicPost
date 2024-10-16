@@ -26,6 +26,8 @@ import ReceiptPrint from './ReceiptPrint';
 import ForgotPassword from './layouts/ForgotPassword';
 import ResetPassword from './component/ResetPassword';
 import InvoicePrint from './component/InvoicePrint';
+import VerifyPage from './VerifyPage';
+import AccountVerified from './AccountVerified';
 
 function App() {
   return (  
@@ -47,7 +49,8 @@ function App() {
       <Route path='/receipt' element={<ReceiptPrint/>} />
       <Route path='/forgot-password' element={<ForgotPassword/>} />
       <Route path='/reset-password/:id/:token' element={<ResetPassword/>} />
-
+      <Route path="/account-verified" element={<AccountVerified/>} />
+      <Route path="/verify-page" element={<VerifyPage/>} />
       <Route
             exact
             path="/chat"

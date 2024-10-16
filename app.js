@@ -124,6 +124,66 @@ app.post("/api/reset-password/:id/:token", async (req, res) => {
   }
 });
 
+
+
+app.get("/api/validate/:token", async (req, res) => {
+  const { token } = req.params;
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findOne({ email: decoded.email });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.isValidated = true;
+    user.validationToken = undefined; // Clear the validation token
+    await user.save();
+
+    res.redirect("/account-verified"); // Redirect to a confirmation page
+  } catch (error) {
+    res.status(400).json({ message: "Invalid or expired token" });
+  }
+});
+app.post('/resend-verification', async (req, res) => {
+  const { email } = req.body;
+
+  const user = await User.findOne({ email });
+  if (!user || user.isValidated) {
+    return res.status(400).json({ message: "User not found or already validated." });
+  }
+
+  // Generate a new validation token
+  const validationToken = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: "1d" });
+  user.validationToken = validationToken;
+  await user.save();
+
+  const link = `https://mgpost.onrender.com/api/validate/${validationToken}`;
+
+  // Send verification email
+  let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.MAIL_USERNAME,
+      pass: process.env.MAIL_APP_PASSWORD,
+    },
+  });
+
+  const mailOptions = {
+    from: process.env.MAIL_USERNAME,
+    to: email,
+    subject: "Account Verification",
+    html: `Click this link to verify your account: <a href="${link}">${link}</a>`,
+  };
+
+  await transporter.sendMail(mailOptions);
+  res.json({ message: "Verification email sent." });
+});
+
+
+
+
 const __dirname = path.resolve();
 
 if (process.env.NODE_ENV === 'production') {

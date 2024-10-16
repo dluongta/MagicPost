@@ -45,7 +45,7 @@ export default function ChatLayout() {
           if (!data.isValidated) {
             navigate('/verify-page');
           } else {
-            navigate('/');
+            navigate('/chat');
           }
         } catch (error) {
           console.error('Error fetching user details:', error);

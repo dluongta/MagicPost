@@ -8,7 +8,6 @@ import AllUsers from "../chat/AllUsers";
 import SearchUsers from "../chat/SearchUsers";
 import Header from "../layouts/HeaderChat";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 export default function ChatLayout() {
   const [users, setUsers] = useState([]);
@@ -22,7 +21,6 @@ export default function ChatLayout() {
 
   const socket = useRef();
   const scrollRef = useRef();
-  const navigate = useNavigate(); // Initialize useNavigate
 
   const { currentUser } = useAuth();
   const {

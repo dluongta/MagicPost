@@ -8,9 +8,7 @@ const VerifyPage = () => {
   // Function to extract email from the URL query parameters
   const getEmailFromQuery = () => {
     const query = new URLSearchParams(location.search);
-    return query.get('email') ? query.get('email'): prompt("Please enter your email address:");
-
-    ;
+    return query.get('email');
   };
 
   const resendVerification = async () => {

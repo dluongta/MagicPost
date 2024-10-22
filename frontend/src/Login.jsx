@@ -30,7 +30,6 @@ const Login = () => {
 
           if (data && !data.isValidated) {
             navigate(`/verify-page?email=${email}`);
-            dispatch(logout());
           } else {
             navigate(redirect);
           }

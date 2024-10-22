@@ -30,6 +30,7 @@ const Login = () => {
 
           if (data && !data.isValidated) {
             navigate(`/verify-page?email=${email}`);
+            dispatch(logout());
           } else {
             navigate(redirect);
           }
@@ -61,10 +62,6 @@ const Login = () => {
     }
   }, [resetStatus]);
   
-  useEffect(() => {
-    dispatch(logout());
-  }, []);
-
   return (
     <div className="form-container">
       <form onSubmit={submitHandler}>

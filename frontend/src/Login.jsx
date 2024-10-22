@@ -24,23 +24,23 @@ const Login = () => {
       // Fetch user details if needed
       const fetchUserDetails = async () => {
         try {
-          // Sử dụng ID từ userInfo để fetch
-          const { data } = await axios.get(`/api/users/${userInfo._id}`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-          });
-          
-          if (!data.isValidated) {
-            navigate(`/verify-page?email=${email}`);
-          } else {
-            navigate('/');
-          }
+            const { data } = await axios.get(`/api/users/${userInfo._id}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
+    
+            if (data && !data.isValidated) {
+                navigate(`/verify-page?email=${email}`);
+            } else {
+                navigate('/');
+            }
         } catch (error) {
-          console.error('Error fetching user details:', error);
-          setMessage('Failed to fetch user details.');
+            console.error('Error fetching user details:', error);
+            setMessage('Failed to fetch user details.');
         }
-      };
+    };
+    
 
       fetchUserDetails();
     }

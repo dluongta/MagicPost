@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from './actions/userActions';
+import { login, logout } from './actions/userActions';
 import Message from './component/Message';
 import axios from 'axios';
 
@@ -60,6 +60,10 @@ const Login = () => {
       setMessage(resetStatus);
     }
   }, [resetStatus]);
+  
+  useEffect(() => {
+    dispatch(logout());
+  }, []);
 
   return (
     <div className="form-container">

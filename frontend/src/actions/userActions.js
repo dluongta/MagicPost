@@ -37,17 +37,21 @@ export const login = (email, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post('/api/users/login', { email, password }, config);
+    
+    console.log('Login response:', data); // Log the response for debugging
 
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
     localStorage.setItem('userInfo', JSON.stringify(data));
     localStorage.setItem('token', data.token); // Save token to localStorage
   } catch (error) {
+    console.error('Login error:', error); // Log error details
     dispatch({
       type: USER_LOGIN_FAIL,
       payload: error.response?.data.message || error.message,
     });
   }
 };
+
 
 export const logout = () => (dispatch) => {
   localStorage.removeItem('userInfo');

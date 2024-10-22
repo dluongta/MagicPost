@@ -17,15 +17,8 @@ const authUser = asyncHandler(async (req, res) => {
   // Check if user exists
   if (!user) {
     res.status(401);
-    throw new Error('Invalid email or password');
+    throw new Error('No Account Found');
   }
-
-  // Check if the user is validated
-  if (!user.isValidated) {
-    // Redirect to verify-page with email as a query parameter
-    return res.redirect(`/verify-page?email=${email}`);
-  }
-
   // Check if the password matches
   if (await user.matchPassword(password)) {
     res.json({

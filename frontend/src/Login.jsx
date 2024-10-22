@@ -88,7 +88,7 @@ const Login = () => {
             className="box" 
             onChange={(e) => setPassword(e.target.value)} 
           />
-          <input type="submit" name="submit" className="btn" value="login now" />
+          <input type="submit" name="submit" className="btn" onClick={submitHandler} value="login now" />
           <p>Don't have an account? <a href="/register">Sign up</a></p>
           <p>Forgot password? <a href="/forgot-password" onClick={forgotPasswordHandler}>Reset Password</a></p>
           <p>Verify Your Account? <a href="/verify-page">Verify Now</a></p>

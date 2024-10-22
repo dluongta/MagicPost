@@ -3,6 +3,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from './actions/userActions';
 import Message from './component/Message';
+import axios from 'axios';
 
 const Login = () => {
   const location = useLocation();
@@ -17,24 +18,40 @@ const Login = () => {
   const { loading, error, userInfo } = userLogin;
 
   const redirect = window.location.search ? window.location.search.split('=')[1] : '/';
-
+  
   useEffect(() => {
     if (userInfo) {
-      // Redirect to the appropriate page based on validation status
-      if (!userInfo.isValidated) {
-        navigate(`/verify-page?email=${email}`); // Use email from state
-      } else {
-        navigate(redirect);
-      }
-    }
-  }, [userInfo, redirect, navigate, email]); // Add email to dependencies
+      // Fetch user details if needed
+      const fetchUserDetails = async () => {
+        try {
+          // Sử dụng ID từ userInfo để fetch
+          const { data } = await axios.get(`/api/users/${userInfo._id}`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          });
+          
+          if (!data.isValidated) {
+            navigate(`/verify-page?email=${email}`);
+          } else {
+            navigate('/');
+          }
+        } catch (error) {
+          console.error('Error fetching user details:', error);
+          setMessage('Failed to fetch user details.');
+        }
+      };
 
-  const submitHandler = async (e) => {
+      fetchUserDetails();
+    }
+  }, [userInfo, redirect, navigate]);
+
+  const submitHandler = (e) => {
     e.preventDefault();
     dispatch(login(email, password));
   };
 
-  const forgotPasswordHandler = (event) => {
+  const forgotPasswordHandler = async (event) => {
     event.preventDefault();
     navigate("/forgot-password", {
       state: { message: email },
@@ -48,33 +65,36 @@ const Login = () => {
   }, [resetStatus]);
 
   return (
-    <div className="form-container">
-      <form onSubmit={submitHandler}>
-        <h3>Log In</h3>
-        {error && <Message variant='danger'>{error}</Message>}
-        {message && <Message variant='success'>{message}</Message>}
+    <>
+      <div className="form-container">
+        <form action="" method="post" onSubmit={submitHandler}>
+          <h3>Log In</h3>
+          {error && <Message variant='danger'>{error}</Message>}
+          {message && <Message variant='success'>{message}</Message>}
 
-        <input 
-          type="text" 
-          name="email" 
-          required 
-          placeholder="Enter email" 
-          className="box" 
-          onChange={(e) => setEmail(e.target.value)} 
-        />
-        <input 
-          type="password" 
-          name="password" 
-          required 
-          placeholder="Enter password" 
-          className="box" 
-          onChange={(e) => setPassword(e.target.value)} 
-        />
-        <input type="submit" className="btn" value="Login now" />
-        <p>Don't have an account? <a href="/register">Sign up</a></p>
-        <p>Forgot password? <a href="/forgot-password" onClick={forgotPasswordHandler}>Reset Password</a></p>
-      </form>
-    </div>
+          <input 
+            type="text" 
+            name="email" 
+            required 
+            placeholder="enter email" 
+            className="box" 
+            onChange={(e) => setEmail(e.target.value)} 
+          />
+          <input 
+            type="password" 
+            name="password" 
+            required 
+            placeholder="enter password" 
+            className="box" 
+            onChange={(e) => setPassword(e.target.value)} 
+          />
+          <input type="submit" name="submit" className="btn" value="login now" />
+          <p>Don't have an account? <a href="/register">Sign up</a></p>
+          <p>Forgot password? <a href="/forgot-password" onClick={forgotPasswordHandler}>Reset Password</a></p>
+          <p>Verify Your Account? <a href="/verify-page">Verify Now</a></p>
+        </form>
+      </div>
+    </>
   );
 }
 

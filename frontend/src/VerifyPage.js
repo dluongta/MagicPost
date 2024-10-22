@@ -15,7 +15,7 @@ const VerifyPage = () => {
     const email = getEmailFromQuery();
 
     if (!email) {
-      alert("No email address found. Please enter your email address.");
+      email = prompt("Please enter your email address:");
       return;
     }
 

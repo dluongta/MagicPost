@@ -1,7 +1,10 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch } from "react-redux";
+import { logout } from "./actions/userActions";
 
 const VerifyPage = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -43,7 +46,10 @@ const VerifyPage = () => {
       <button onClick={resendVerification} style={styles.button}>
         Resend Verification Email
       </button>
-      <p style={styles.link} onClick={() => navigate('/login')}>
+      <p style={styles.link} onClick={() => 
+        { dispatch(logout());
+          navigate('/login');
+        }}>
         Go back to the login page
       </p>
     </div>

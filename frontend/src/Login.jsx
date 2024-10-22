@@ -18,7 +18,6 @@ const Login = () => {
   const { loading, error, userInfo } = userLogin;
 
   const redirect = new URLSearchParams(location.search).get('redirect') || '/';
-  console.log(userLogin)
   useEffect(() => {
     if (userInfo) {
       const fetchUserDetails = async () => {

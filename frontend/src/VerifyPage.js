@@ -1,13 +1,25 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const VerifyPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Function to extract email from the URL query parameters
+  const getEmailFromQuery = () => {
+    const query = new URLSearchParams(location.search);
+    return query.get('email') ? query.get('email'): prompt("Please enter your email address:");
+
+    ;
+  };
 
   const resendVerification = async () => {
-    const email = prompt("Please enter your email address:");
+    const email = getEmailFromQuery();
 
-    if (!email) return;
+    if (!email) {
+      alert("No email address found. Please enter your email address.");
+      return;
+    }
 
     try {
       const response = await fetch('/resend-verification', {
@@ -28,13 +40,13 @@ const VerifyPage = () => {
 
   return (
     <div style={styles.container}>
-      <h2>Tài khoản của bạn đang được xác minh!</h2>
-      <p>Chúng tôi đã gửi email xác minh đến địa chỉ của bạn.</p>
+      <h2>Your account is being verified!</h2>
+      <p>We have sent a verification email to {getEmailFromQuery()}.</p>
       <button onClick={resendVerification} style={styles.button}>
-        Gửi lại mã
+        Resend Verification Email
       </button>
       <p style={styles.link} onClick={() => navigate('/login')}>
-        Quay lại trang đăng nhập
+        Go back to the login page
       </p>
     </div>
   );

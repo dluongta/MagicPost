@@ -12,7 +12,8 @@ const authUser = asyncHandler(async (req, res) => {
 
   const user = await User.findOne({ email });
   if (!user || !user.isValidated) {
-    return res.status(401).json({ message: "Account Not Validated" });
+    // Redirect to verify-page with email as a query parameter
+    return res.redirect(`/verify-page?email=${email}`);
   }
 
   if (user && (await user.matchPassword(password))) {
@@ -21,6 +22,7 @@ const authUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      isValidated: user.isValidated,
       token: generateToken(user._id),
     });
   } else {
@@ -28,6 +30,8 @@ const authUser = asyncHandler(async (req, res) => {
     throw new Error('Invalid email or password');
   }
 });
+
+
 
 // @desc    Register a new user
 // @route   POST /api/users

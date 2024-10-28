@@ -43,6 +43,7 @@ const VerifyPage = () => {
     <div style={styles.container}>
       <h2>Your account is being verified!</h2>
       <p>We have sent a verification email to {getEmailFromQuery()}.</p>
+      <p>Your Verification Is Expired After 3 Minutes.</p>
       <button onClick={resendVerification} style={styles.button}>
         Resend Verification Email
       </button>

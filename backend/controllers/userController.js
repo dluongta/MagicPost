@@ -75,7 +75,7 @@ const registerUser = asyncHandler(async (req, res) => {
     from: process.env.MAIL_USERNAME,
     to: email,
     subject: "Account Verification",
-    html: `Click this link to verify your account: <a href="${link}">${link}</a>`,
+    html: `Click this link to verify your account: <a href="${link}">${link}</a>. Your Verification Is Expired After 3 Minutes.`,
   };
 
   await transporter.sendMail(mailOptions);
@@ -212,6 +212,23 @@ const updateUser = asyncHandler(async (req, res) => {
     throw new Error('User not found');
   }
 });
+
+// Function to delete unvalidated users
+const deleteUnvalidatedUsers = async () => {
+  try {
+    const cutoffDate = new Date(Date.now() - 3 * 60 * 1000); // 3 minutes ago
+    const result = await User.deleteMany({ 
+      isValidated: false,
+      createdAt: { $lt: cutoffDate }
+    });
+    console.log(`Deleted ${result.deletedCount} unvalidated users.`);
+  } catch (error) {
+    console.error('Error deleting unvalidated users:', error);
+  }
+};
+
+// Set up an interval to run the function every minute
+setInterval(deleteUnvalidatedUsers, 60 * 1000); // Every 60 seconds
 
 export {
   authUser,

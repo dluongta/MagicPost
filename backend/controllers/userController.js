@@ -75,7 +75,8 @@ const registerUser = asyncHandler(async (req, res) => {
     from: process.env.MAIL_USERNAME,
     to: email,
     subject: "Account Verification",
-    html: `Click this link to verify your account: <a href="${link}">${link}</a>. Your Verification Is Expired After 3 Minutes.`,
+    html: `<p>Click this link to verify your account: <a href="${link}">${link}</a>.</p>
+     <p>Your Verification Is Expired After 3 Minutes.</p>`,
   };
 
   await transporter.sendMail(mailOptions);

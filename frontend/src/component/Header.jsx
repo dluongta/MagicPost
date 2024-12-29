@@ -48,7 +48,6 @@ const Header = () => {
         </div>
       </nav>
 
-      <div className='leftmenuinnerinner'>
         <div className='navSidebar'>
           <h1>Menu</h1>
           <ul className='menu'>
@@ -57,7 +56,6 @@ const Header = () => {
             {userInfo && userInfo.isAdmin && <li><Link to='/admin/userlist'>Quản lý người dùng</Link></li>}
           </ul>
         </div>
-      </div>
     </>
   )
 }

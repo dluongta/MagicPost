@@ -25,7 +25,11 @@ const Header = () => {
   })
   return (
     <>
-      <marquee>Chào mừng đến với MagicPost</marquee>
+      <div className="marquee-container">
+        <marquee behavior="scroll" direction="left" scrollamount="10">
+          Chào mừng đến với MagicPost
+        </marquee>
+      </div>
       <nav className="navbar">
         <div className="brand-title">
           <Link to='/'><img width={95} height={60} src={logo} alt="Logo" /></Link>
@@ -48,14 +52,14 @@ const Header = () => {
         </div>
       </nav>
 
-        <div className='navSidebar'>
-          <h1>Menu</h1>
-          <ul className='menu'>
-            <li><Link to='/search'>Tìm kiếm</Link></li>
-            {userInfo && userInfo.isAdmin && <li><Link to='/admin/postlist'>Quản lý đơn hàng</Link></li>}
-            {userInfo && userInfo.isAdmin && <li><Link to='/admin/userlist'>Quản lý người dùng</Link></li>}
-          </ul>
-        </div>
+      <div className='navSidebar'>
+        <h1>Menu</h1>
+        <ul className='menu'>
+          <li><Link to='/search'>Tìm kiếm</Link></li>
+          {userInfo && userInfo.isAdmin && <li><Link to='/admin/postlist'>Quản lý đơn hàng</Link></li>}
+          {userInfo && userInfo.isAdmin && <li><Link to='/admin/userlist'>Quản lý người dùng</Link></li>}
+        </ul>
+      </div>
     </>
   )
 }

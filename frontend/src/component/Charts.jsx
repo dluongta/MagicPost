@@ -67,17 +67,22 @@ const Charts = () => {
   };
 
   const barOptions = {
-    plugins: {
-      datalabels: {
-        color: '#000',
-        anchor: 'end',
-        align: 'top',
-        font: {
-          weight: 'bold',
-        },
+  plugins: {
+    legend: {
+      position: 'top',
+    },
+    datalabels: {
+      color: '#000',       
+      anchor: 'center',     
+      align: 'center',      
+      font: {
+        weight: 'bold',
+        size: 14,
       },
     },
-  };
+  },
+};
+
 
   // Pie chart
   const pieData = {

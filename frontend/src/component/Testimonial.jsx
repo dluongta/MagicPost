@@ -123,19 +123,19 @@ Testimonial.defaultProps = {
   author3Alt: 'Image of David Johnson',
   author1Name: 'John Doe',
   author1Src:
-    'https://images.unsplash.com/photo-1707728010812-63a4fa1d6e4e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w5MTMyMXwwfDF8cmFuZG9tfHx8fHx8fHx8MTcyNTk3MjA5MHw&ixlib=rb-4.0.3&q=80&w=1080',
+    'https://raw.githubusercontent.com/luen2003/React_App_Resume_Page/refs/heads/main/src/assets/luen-1.jpg',
   author3Name: 'David Johnson',
   review2: '5 stars',
   author2Name: 'Jane Smith',
   author4Position: 'Position, Company name',
   author4Name: 'Author Name',
   author4Src:
-    'https://images.unsplash.com/photo-1533748430324-45f466e36937?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w5MTMyMXwwfDF8cmFuZG9tfHx8fHx8fHx8MTcyNTk3MjA5MXw&ixlib=rb-4.0.3&q=80&w=1080',
+    'https://raw.githubusercontent.com/luen2003/React_App_Resume_Page/refs/heads/main/src/assets/luen-1.jpg',
   author1Alt: 'Image of John Doe',
   author2Src:
-  'https://raw.githubusercontent.com/luen2003/React_App_CV_Page/main/src/assets/Luen.jpg',
+  'https://raw.githubusercontent.com/luen2003/React_App_Resume_Page/refs/heads/main/src/assets/luen-1.jpg',
   author3Src:
-    'https://images.unsplash.com/photo-1707912079134-becf5a3598e2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w5MTMyMXwwfDF8cmFuZG9tfHx8fHx8fHx8MTcyNTk3MjA5M3w&ixlib=rb-4.0.3&q=80&w=1080',
+    'https://raw.githubusercontent.com/luen2003/React_App_Resume_Page/refs/heads/main/src/assets/luen-1.jpg',
   author2Alt: 'Image of Jane Smith',
   author4Alt: 'image',
   content1:

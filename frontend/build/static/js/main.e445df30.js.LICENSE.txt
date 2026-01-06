@@ -24,6 +24,13 @@ object-assign
  * Released under the MIT License
  */
 
+/*!
+ * chartjs-plugin-datalabels v2.2.0
+ * https://chartjs-plugin-datalabels.netlify.app
+ * (c) 2017-2022 chartjs-plugin-datalabels contributors
+ * Released under the MIT license
+ */
+
 /**
  * @remix-run/router v1.19.2
  *

@@ -10,6 +10,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Line, Bar, Pie } from 'react-chartjs-2';
 
 ChartJS.register(
@@ -20,11 +21,12 @@ ChartJS.register(
   BarElement,
   ArcElement,
   Tooltip,
-  Legend
+  Legend,
+  ChartDataLabels
 );
 
 const Charts = () => {
-  // Line chart (biểu đồ đường + chấm)
+  // Line chart
   const lineData = {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
     datasets: [
@@ -39,7 +41,20 @@ const Charts = () => {
     ],
   };
 
-  // Bar chart (biểu đồ cột)
+  const lineOptions = {
+    plugins: {
+      datalabels: {
+        color: '#000',
+        anchor: 'end',
+        align: 'top',
+        font: {
+          weight: 'bold',
+        },
+      },
+    },
+  };
+
+  // Bar chart
   const barData = {
     labels: ['Product A', 'Product B', 'Product C'],
     datasets: [
@@ -51,7 +66,20 @@ const Charts = () => {
     ],
   };
 
-  // Pie chart (biểu đồ tròn)
+  const barOptions = {
+    plugins: {
+      datalabels: {
+        color: '#000',
+        anchor: 'end',
+        align: 'top',
+        font: {
+          weight: 'bold',
+        },
+      },
+    },
+  };
+
+  // Pie chart
   const pieData = {
     labels: ['Chrome', 'Firefox', 'Safari'],
     datasets: [
@@ -62,20 +90,37 @@ const Charts = () => {
     ],
   };
 
+  const pieOptions = {
+    plugins: {
+      datalabels: {
+        color: '#fff',
+        formatter: (value, ctx) => {
+          const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
+          const percent = ((value / total) * 100).toFixed(1);
+          return percent + '%';
+        },
+        font: {
+          weight: 'bold',
+          size: 14,
+        },
+      },
+    },
+  };
+
   return (
     <div style={{ padding: '40px' }}>
       <h2>Analytics Overview</h2>
 
       <div style={{ maxWidth: 600, marginBottom: 40 }}>
-        <Line data={lineData} />
+        <Line data={lineData} options={lineOptions} />
       </div>
 
       <div style={{ maxWidth: 600, marginBottom: 40 }}>
-        <Bar data={barData} />
+        <Bar data={barData} options={barOptions} />
       </div>
 
       <div style={{ maxWidth: 400 }}>
-        <Pie data={pieData} />
+        <Pie data={pieData} options={pieOptions} />
       </div>
     </div>
   );

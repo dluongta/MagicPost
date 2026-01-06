@@ -14,7 +14,7 @@ import Testimonial from './component/Testimonial';
 import Contact from './component/Contact';
 import Pricing from './component/Pricing';
 import axios from 'axios';
-
+import Charts from './component/Charts';
 const Homepage = () => {
   const { currentUser } = useAuth();
   const navigate = useNavigate(); // Initialize useNavigate
@@ -53,6 +53,7 @@ const Homepage = () => {
         <Carousel />
         <Feature />
         <Hero />
+        <Charts />
         <Steps />
         <CTA />
         <Branding />

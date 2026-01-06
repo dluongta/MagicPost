@@ -57,8 +57,6 @@ const Feature = () => {
 
         </div>
     </div>
-    <iframe src="https://luen2003.github.io/Rubik.html"></iframe>
-    <iframe src="https://vietnam-map-platform.vercel.app/"></iframe>
     </>
   )
 }

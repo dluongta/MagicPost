@@ -207,7 +207,7 @@ Footer.defaultProps = {
   action1: 'Subscribe our letter',
   content3: '© 2024 Your Company. All Rights Reserved.',
   link4: 'Shipping Information',
-  logoSrc: 'https://raw.githubusercontent.com/luen2003/React_App_CV_Page/main/src/assets/Luen.jpg',
+  logoSrc: 'https://raw.githubusercontent.com/luen2003/React_App_Resume_Page/refs/heads/main/src/assets/luen-1.jpg',
   cookiesLink: 'cookie-policy',
   content2: 'Stay up to date with the latest news and deals.',
   link9: 'Cookie Policy',

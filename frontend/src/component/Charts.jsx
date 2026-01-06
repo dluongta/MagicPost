@@ -72,7 +72,7 @@ const Charts = () => {
       position: 'top',
     },
     datalabels: {
-      color: '#000',       
+      color: '#fff',       
       anchor: 'center',     
       align: 'center',      
       font: {

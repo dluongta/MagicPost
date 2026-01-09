@@ -2,6 +2,9 @@ import React from 'react'
 
 import Script from 'dangerous-html/react'
 import PropTypes from 'prop-types'
+import heroImage1 from '../assets/hexagon-main.png'
+import heroImage2 from '../assets/luen_logo.png'
+import heroImage3 from '../assets/luen-1.jpg'
 
 import './hero.css'
 
@@ -185,50 +188,37 @@ const Hero = (props) => {
     </div>
   )
 }
-
 Hero.defaultProps = {
-  image3Src:
-    'https://images.unsplash.com/photo-1535378917042-10a22c95931a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w5MTMyMXwwfDF8cmFuZG9tfHx8fHx8fHx8MTcyNTk3MjA5MXw&ixlib=rb-4.0.3&q=80&w=1080',
+  image3Src: heroImage3,
   image8Alt: 'Hero Image',
-  image2Src:
-    'https://images.unsplash.com/photo-1499244571948-7ccddb3583f1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w5MTMyMXwwfDF8cmFuZG9tfHx8fHx8fHx8MTcyNTk3MjA5M3w&ixlib=rb-4.0.3&q=80&w=1080',
+  image2Src: heroImage2,
   image6Alt: 'Hero Image',
-  image11Src:
-    'https://images.unsplash.com/photo-1507120410856-1f35574c3b45?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w5MTMyMXwwfDF8cmFuZG9tfHx8fHx8fHx8MTcyNTk3MjA5NXw&ixlib=rb-4.0.3&q=80&w=1080',
+  image11Src: heroImage2,
   image5Alt: 'Hero Image',
   image1Alt: 'Technology Devices',
-  image7Src:
-    'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w5MTMyMXwwfDF8cmFuZG9tfHx8fHx8fHx8MTcyNTk3MjEwMXw&ixlib=rb-4.0.3&q=80&w=1080',
+  image7Src: heroImage1,
   image7Alt: 'Hero Image',
   image12Alt: 'Hero Image',
   image2Alt: 'Hero Image',
-  image6Src:
-    'https://images.unsplash.com/photo-1487700160041-babef9c3cb55?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w5MTMyMXwwfDF8cmFuZG9tfHx8fHx8fHx8MTcyNTk3MjEwMXw&ixlib=rb-4.0.3&q=80&w=1080',
-  image12Src:
-    'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w5MTMyMXwwfDF8cmFuZG9tfHx8fHx8fHx8MTcyNTk3MjEwMXw&ixlib=rb-4.0.3&q=80&w=1080',
+  image6Src: heroImage3,
+  image12Src: heroImage3,
   image3Alt: 'Hero Image',
-  image9Src:
-    'https://images.unsplash.com/photo-1494386346843-e12284507169?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w5MTMyMXwwfDF8cmFuZG9tfHx8fHx8fHx8MTcyNTk3MjEwMnw&ixlib=rb-4.0.3&q=80&w=1080',
+  image9Src: heroImage3,
   image11Alt: 'Hero Image',
   action2: 'Secondary action',
   action1: 'Shop Now',
-  image8Src:
-    'https://images.unsplash.com/photo-1499946981954-e7f4b234d7fa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w5MTMyMXwwfDF8cmFuZG9tfHx8fHx8fHx8MTcyNTk3MjEwMnw&ixlib=rb-4.0.3&q=80&w=1080',
-  image5Src:
-    'https://images.unsplash.com/photo-1502139214982-d0ad755818d8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w5MTMyMXwwfDF8cmFuZG9tfHx8fHx8fHx8MTcyNTk3MjEwMnw&ixlib=rb-4.0.3&q=80&w=1080',
-  image4Src:
-    'https://images.unsplash.com/photo-1507120410856-1f35574c3b45?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w5MTMyMXwwfDF8cmFuZG9tfHx8fHx8fHx8MTcyNTk3MjEwM3w&ixlib=rb-4.0.3&q=80&w=1080',
+  image8Src: heroImage2,
+  image5Src: heroImage2,
+  image4Src: heroImage1,
   image10Alt: 'Hero Image',
   image4Alt: 'Hero Image',
   heading1: 'Discover the Latest Technology Devices',
   content1:
     'Explore our wide range of cutting-edge technology devices including computers, phones, tablets, and more. Stay ahead with the latest innovations in the tech world.',
-  image10Src:
-    'https://images.unsplash.com/photo-1459499362902-55a20553e082?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w5MTMyMXwwfDF8cmFuZG9tfHx8fHx8fHx8MTcyNTk3MjEwM3w&ixlib=rb-4.0.3&q=80&w=1080',
+  image10Src: heroImage1,
   image9Alt: 'Hero Image',
-  image1Src:
-    'https://images.unsplash.com/photo-1498612753354-772a30629934?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w5MTMyMXwwfDF8cmFuZG9tfHx8fHx8fHx8MTcyNTk3MjEwNHw&ixlib=rb-4.0.3&q=80&w=1080',
-}
+  image1Src: heroImage1,
+};
 
 Hero.propTypes = {
   image3Src: PropTypes.string,
@@ -259,6 +249,6 @@ Hero.propTypes = {
   image10Src: PropTypes.string,
   image9Alt: PropTypes.string,
   image1Src: PropTypes.string,
-}
+};
 
-export default Hero
+export default Hero;

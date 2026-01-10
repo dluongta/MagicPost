@@ -4,8 +4,6 @@ import PropTypes from 'prop-types'
 
 import './testimonial.css'
 
-import avatarImage from '../../src/assets/luen-1.jpg'
-
 const Testimonial = (props) => {
   return (
     <div className="thq-section-padding">
@@ -125,19 +123,19 @@ Testimonial.defaultProps = {
   author3Alt: 'Image of David Johnson',
   author1Name: 'John Doe',
   author1Src:
-    avatarImage,
+    'https://raw.githubusercontent.com/luen2003/React_App_Resume_Page/refs/heads/main/src/assets/luen-1.jpg',
   author3Name: 'David Johnson',
   review2: '5 stars',
   author2Name: 'Jane Smith',
   author4Position: 'Position, Company name',
   author4Name: 'Author Name',
   author4Src:
-    avatarImage,
+    'https://raw.githubusercontent.com/luen2003/React_App_Resume_Page/refs/heads/main/src/assets/luen-1.jpg',
   author1Alt: 'Image of John Doe',
   author2Src:
-    avatarImage,
+  'https://raw.githubusercontent.com/luen2003/React_App_Resume_Page/refs/heads/main/src/assets/luen-1.jpg',
   author3Src:
-    avatarImage,
+    'https://raw.githubusercontent.com/luen2003/React_App_Resume_Page/refs/heads/main/src/assets/luen-1.jpg',
   author2Alt: 'Image of Jane Smith',
   author4Alt: 'image',
   content1:

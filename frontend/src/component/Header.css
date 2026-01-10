@@ -1,0 +1,325 @@
+/* --- RESET & LAYOUT CƠ BẢN --- */
+* {
+  box-sizing: border-box; /* Quan trọng nhất để không bị tràn màn hình */
+}
+
+:root {
+  --nav-height: 80px;
+  --sidebar-width: 250px;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden; /* Ngăn chặn cuộn ngang tuyệt đối */
+}
+
+/* --- NAVBAR --- */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--nav-height);
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+/* --- SIDEBAR PC --- */
+.desktop-sidebar {
+  position: fixed;
+  top: var(--nav-height);
+  left: 0;
+  width: var(--sidebar-width);
+  height: calc(100vh - var(--nav-height));
+  background: #f4f4f4;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+  z-index: 900;
+}
+
+/* --- NỘI DUNG CHÍNH (Áp dụng cho div chứa các component ở Homepage) --- */
+.content {
+  margin-top: var(--nav-height);
+  margin-left: var(--sidebar-width); /* Chừa chỗ cho sidebar trên PC */
+  width: calc(100% - var(--sidebar-width));
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+/* --- RESPONSIVE CHO MOBILE & MÀN HÌNH NHỎ --- */
+@media (max-width: 992px) { /* Khi màn hình bắt đầu nhỏ (Tablet/Mobile) */
+  
+  /* 1. Ẩn hoàn toàn sidebar PC */
+  .desktop-sidebar {
+    display: none;
+  }
+
+  /* 2. Đưa nội dung chính về full màn hình, không còn lệch trái */
+  .content {
+    margin-left: 0 !important;
+    width: 100% !important;
+    padding: 15px; /* Giảm padding cho màn hình nhỏ */
+  }
+
+  /* 3. Hiện nút hamburger */
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+  }
+  .hamburger span {
+    width: 25px;
+    height: 3px;
+    background: #333;
+  }
+
+  /* 4. Ẩn link ngang trên navbar */
+  .nav-links {
+    display: none;
+  }
+}
+
+/* Drawer Mobile */
+.mobile-drawer {
+  position: fixed;
+  top: 0;
+  left: -100%; /* Giấu menu */
+  width: 280px;
+  height: 100%;
+  background: #fff;
+  z-index: 2000;
+  transition: 0.3s;
+  padding: 50px 20px;
+}
+.mobile-drawer.show { left: 0; }
+.overlay.show {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 1500;
+}
+
+/* --- CẤU HÌNH CHO MÀN HÌNH DI ĐỘNG (Dưới 768px và đặc biệt là dưới 468px) --- */
+@media (max-width: 768px) {
+  /* 1. Ẩn Sidebar PC hoàn toàn */
+  .desktop-sidebar {
+    display: none !important;
+  }
+
+  /* 2. Sửa lỗi nội dung bị lệch trái và thừa bên phải */
+  .content {
+    margin-left: 0 !important;      /* Bỏ khoảng trống bên trái của Sidebar */
+    margin-right: 0 !important;     /* Bỏ khoảng trống bên phải */
+    width: 100% !important;         /* Ép nội dung chiếm hết chiều ngang */
+    max-width: 100vw !important;    /* Đảm bảo không vượt quá chiều ngang màn hình */
+    padding: 10px !important;       /* Padding nhỏ để nội dung không sát mép */
+    display: block !important;
+    overflow-x: hidden !important;  /* Chống tràn ngang */
+  }
+
+  /* 3. Đảm bảo các hình ảnh/banner không đẩy khung ra ngoài */
+  .content img, 
+  .content .carousel, 
+  .content .banner {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  /* 4. Navbar mobile */
+  .navbar {
+    padding: 0 10px !important;
+  }
+}
+
+/* --- FIX RIÊNG CHO MÀN HÌNH SIÊU NHỎ (Dưới 480px) --- */
+@media (max-width: 480px) {
+  .brand-title span {
+    font-size: 1rem; /* Thu nhỏ chữ logo để không đẩy menu */
+  }
+  
+  .content {
+    padding: 5px !important; /* Tối ưu không gian nhất có thể */
+  }
+}
+
+/* --- Login link màu xanh dương --- */
+.login-link {
+  color: #007bff; /* xanh dương nổi bật */
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.login-link:hover {
+  text-decoration: underline;
+}
+
+/* Navbar & Sidebar cơ bản như trước */
+.navbar { /* ... */ }
+.nav-links { /* ... */ }
+.desktop-sidebar { /* ... */ }
+
+/* Mobile Drawer */
+.mobile-drawer { /* ... */ }
+.mobile-drawer .login-link { color: #007bff; font-weight: bold; }
+
+/* Responsive */
+@media (max-width: 992px) {
+  .desktop-sidebar { display: none; }
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+}
+
+/* Content layout */
+.content {
+  margin-top: var(--nav-height);
+  margin-left: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width));
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 992px) {
+  .content { margin-left: 0; width: 100%; }
+}
+
+/* Reset cơ bản */
+* { box-sizing: border-box; }
+:root {
+  --nav-height: 80px;
+  --sidebar-width: 250px;
+}
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--nav-height);
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+/* Navbar links màu xanh dương */
+.nav-links a, 
+.nav-links span,
+.drawer-list a,
+.menu a {
+  color: #007bff; /* Màu xanh dương */
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.nav-links a:hover,
+.drawer-list a:hover,
+.menu a:hover,
+.nav-links span:hover,
+.drawer-list li.logout:hover {
+  text-decoration: underline;
+}
+
+/* Sidebar PC */
+.desktop-sidebar {
+  position: fixed;
+  top: var(--nav-height);
+  left: 0;
+  width: var(--sidebar-width);
+  height: calc(100vh - var(--nav-height));
+  background: #f4f4f4;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+  z-index: 900;
+}
+
+/* Nội dung chính */
+.content {
+  margin-top: var(--nav-height);
+  margin-left: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width));
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+/* Hamburger mobile */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background: #333;
+}
+
+/* Mobile Drawer */
+.mobile-drawer {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 280px;
+  height: 100%;
+  background: #fff;
+  z-index: 2000;
+  transition: 0.3s;
+  padding: 50px 20px;
+}
+.mobile-drawer.show { left: 0; }
+
+.overlay.show {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 1500;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .desktop-sidebar { display: none; }
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .content { margin-left: 0; width: 100%; padding: 15px; }
+}
+
+@media (max-width: 768px) {
+  .content { margin-left: 0; width: 100%; padding: 10px; overflow-x: hidden; }
+}
+
+@media (max-width: 480px) {
+  .brand-title span { font-size: 1rem; }
+  .content { padding: 5px; }
+}
+
+/* Header.css */
+
+.nav-links {
+  display: flex;          /* Kích hoạt Flexbox để dàn hàng ngang */
+  flex-direction: row;    /* Đảm bảo hướng là hàng ngang */
+  align-items: center;    /* Căn giữa các mục theo chiều dọc */
+  list-style: none;       /* Bỏ dấu chấm đầu dòng */
+  gap: 20px;              /* Tạo khoảng cách giữa các mục (Login, Chat, Tìm kiếm...) */
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li {
+  display: inline-block;  /* Đảm bảo các thẻ li nằm trên một dòng */
+}
+.desktop-sidebar {
+  height: 100%;
+}

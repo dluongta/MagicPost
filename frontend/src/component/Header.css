@@ -344,3 +344,26 @@ body {
 .close-btn:hover {
   color: #000;        /* Đổi màu khi di chuột vào */
 }
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .hamburger span {
+    width: 24px;
+    height: 3px;
+    background: #333;
+    border-radius: 2px;
+  }
+
+  .desktop-sidebar {
+    display: none;
+  }
+}

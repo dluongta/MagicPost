@@ -323,3 +323,24 @@ body {
 .desktop-sidebar {
   height: 100%;
 }
+
+
+
+/* Style cho nút dấu nhân */
+.close-btn {
+  position: absolute; /* Quan trọng: để di chuyển tự do */
+  top: 15px;          /* Cách mép trên 15px */
+  right: 15px;         /* Cách mép phải 15px */
+  
+  background: none;
+  border: none;
+  font-size: 24px;    /* Kích thước dấu X */
+  cursor: pointer;
+  color: #333;        /* Màu sắc của dấu X */
+  padding: 5px;
+  line-height: 1;
+}
+
+.close-btn:hover {
+  color: #000;        /* Đổi màu khi di chuột vào */
+}

@@ -56,7 +56,6 @@ const Homepage = () => {
         <Charts />
         <Steps />
         <CTA />
-        <Branding />
         <Pricing />
         <Testimonial />
         <Contact />

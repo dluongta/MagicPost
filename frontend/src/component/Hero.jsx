@@ -7,24 +7,9 @@ import heroImage2 from '../assets/luen_logo.png'
 import heroImage3 from '../assets/luen-1.jpg'
 
 import './hero.css'
-
 const Hero = (props) => {
   return (
     <div className="hero-header78">
-      <div className="hero-column thq-section-padding thq-section-max-width">
-        <div className="hero-content1">
-          <h1 className="hero-text1 thq-heading-1">{props.heading1}</h1>
-          <p className="hero-text2 thq-body-large">{props.content1}</p>
-        </div>
-        <div className="hero-actions">
-          <button className="thq-button-filled hero-button1">
-            <span className="thq-body-small">{props.action1}</span>
-          </button>
-          <button className="thq-button-outline hero-button2">
-            <span className="thq-body-small">{props.action2}</span>
-          </button>
-        </div>
-      </div>
       <div className="hero-content2">
         <div className="hero-row-container1 thq-animated-group-container-horizontal thq-mask-image-horizontal">
           <div className="thq-animated-group-horizontal">
@@ -87,7 +72,7 @@ const Hero = (props) => {
             />
             <img
               alt="Hero Image"
-              src="https://images.unsplash.com/photo-1534312527009-56c7016453e6?ixid=M3w5MTMyMXwwfDF8c2VhcmNofDIxfHxhYnN0cmFjdHxlbnwwfHx8fDE3MTA4NzA5MzB8MA&amp;ixlib=rb-4.0.3&amp;w=1500"
+              src={heroImage1}
               className="hero-placeholder-image21 thq-img-scale thq-img-ratio-1-1"
             />
           </div>
@@ -153,7 +138,7 @@ const Hero = (props) => {
             />
             <img
               alt="Hero Image"
-              src="https://images.unsplash.com/photo-1568214379698-8aeb8c6c6ac8?ixid=M3w5MTMyMXwwfDF8c2VhcmNofDEyfHxncmFmaWN8ZW58MHx8fHwxNzE1Nzk0OTk5fDA&amp;ixlib=rb-4.0.3&amp;w=1500"
+              src={heroImage2}
               className="hero-placeholder-image33 thq-img-scale thq-img-ratio-1-1"
             />
           </div>
@@ -161,33 +146,33 @@ const Hero = (props) => {
       </div>
       <div>
         <div className="hero-container2">
-          <Script
-            html={`<style>
-  @keyframes scroll-x {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(calc(-100% - 16px));
-    }
-  }
+          <style>
+            {`
+              @keyframes scroll-x {
+                from {
+                  transform: translateX(0);
+                }
+                to {
+                  transform: translateX(calc(-100% - 16px));
+                }
+              }
 
-  @keyframes scroll-y {
-    from {
-      transform: translateY(0);
-    }
-    to {
-      transform: translateY(calc(-100% - 16px));
-    }
-  }
-</style>
-`}
-          ></Script>
+              @keyframes scroll-y {
+                from {
+                  transform: translateY(0);
+                }
+                to {
+                  transform: translateY(calc(-100% - 16px));
+                }
+              }
+            `}
+          </style>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
+
 Hero.defaultProps = {
   image3Src: heroImage3,
   image8Alt: 'Hero Image',

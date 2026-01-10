@@ -106,24 +106,21 @@ body {
 }
 
 /* --- CẤU HÌNH CHO MÀN HÌNH DI ĐỘNG (Dưới 768px và đặc biệt là dưới 468px) --- */
-@media (max-width: 768px) {
-  /* 1. Ẩn Sidebar PC hoàn toàn */
+/* @media (max-width: 768px) {
   .desktop-sidebar {
     display: none !important;
   }
 
-  /* 2. Sửa lỗi nội dung bị lệch trái và thừa bên phải */
   .content {
-    margin-left: 0 !important;      /* Bỏ khoảng trống bên trái của Sidebar */
-    margin-right: 0 !important;     /* Bỏ khoảng trống bên phải */
-    width: 100% !important;         /* Ép nội dung chiếm hết chiều ngang */
-    max-width: 100vw !important;    /* Đảm bảo không vượt quá chiều ngang màn hình */
-    padding: 10px !important;       /* Padding nhỏ để nội dung không sát mép */
+    margin-left: 0 !important;      
+    margin-right: 0 !important;     
+    width: 100% !important;         
+    max-width: 100vw !important;    
+    padding: 10px !important;      
     display: block !important;
-    overflow-x: hidden !important;  /* Chống tràn ngang */
+    overflow-x: hidden !important; 
   }
 
-  /* 3. Đảm bảo các hình ảnh/banner không đẩy khung ra ngoài */
   .content img, 
   .content .carousel, 
   .content .banner {
@@ -131,11 +128,10 @@ body {
     height: auto !important;
   }
 
-  /* 4. Navbar mobile */
   .navbar {
     padding: 0 10px !important;
   }
-}
+} */
 
 /* --- FIX RIÊNG CHO MÀN HÌNH SIÊU NHỎ (Dưới 480px) --- */
 @media (max-width: 480px) {
@@ -296,9 +292,9 @@ body {
   .content { margin-left: 0; width: 100%; padding: 15px; }
 }
 
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
   .content { margin-left: 0; width: 100%; padding: 10px; overflow-x: hidden; }
-}
+} */
 
 @media (max-width: 480px) {
   .brand-title span { font-size: 1rem; }
@@ -343,6 +339,9 @@ body {
 
 .close-btn:hover {
   color: #000;        /* Đổi màu khi di chuột vào */
+}
+.hamburger {
+  display: none;
 }
 
 @media (max-width: 768px) {

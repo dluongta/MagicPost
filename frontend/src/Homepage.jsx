@@ -13,8 +13,9 @@ import CTA from './component/CTA';
 import Testimonial from './component/Testimonial';
 import Contact from './component/Contact';
 import Pricing from './component/Pricing';
-import axios from 'axios';
 import Charts from './component/Charts';
+import axios from 'axios';
+
 const Homepage = () => {
   const { currentUser } = useAuth();
   const navigate = useNavigate(); // Initialize useNavigate
@@ -53,7 +54,7 @@ const Homepage = () => {
         <Carousel />
         <Feature />
         <Hero />
-        <Charts />
+        <Charts/>
         <Steps />
         <CTA />
         <Branding />

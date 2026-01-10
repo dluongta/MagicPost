@@ -11,8 +11,6 @@
   --box-shadow:0 5px 10px rgba(0,0,0,.1);
   --border:2px solid var(--black);
 }
-
-
 ul {
   list-style-type: none;
 }
@@ -24,9 +22,9 @@ ul {
 body {
   margin: 0;
   padding: 0;
-  display: block;
+  display: flex; /* Sử dụng flexbox cho body */
+  flex-direction: column; /* Để xếp theo chiều dọc */
 }
-
 
 /* Navbar */
 .navbar {
@@ -73,13 +71,6 @@ body {
   margin-left: 250px; /* Để nội dung không bị che khuất bởi sidebar */
   padding: 20px; /* Thêm padding cho nội dung */
   width: calc(100% - 250px); /* Để nội dung chiếm phần còn lại */
-}
-@media (max-width: 768px) {
-  .navSidebar {
-    position: relative;
-    width: 100%;
-    transform: none;
-  }
 }
 
 /* Các phần khác của CSS giữ nguyên */
@@ -261,8 +252,8 @@ body {
     display: flex;
   }
   .content {
-    width: 100%;
-    transform: none;
+    width: 300px;
+    transform: translateX(-100px);
   }
   .navSidebar {
     width: 150px;
@@ -525,153 +516,7 @@ marquee {
   padding: 5px 0; /* Padding xung quanh văn bản */
 }
 
-html, body {
-  max-width: 100%;
-  overflow-x: auto;   /* cho phép scroll ngang */
-}
 
-@media (max-width: 768px) {
-  html, body {
-    overflow-x: auto;
-  }
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  overflow-x: hidden; /* mặc định */
-}
-
-@media (max-width: 768px) {
-  body {
-    overflow-x: auto; /* mobile cho scroll ngang */
-  }
-}
-@media (max-width: 768px) {
-  .navSidebar {
-    display: none; /* Ẩn sidebar trái */
-  }
-
-  .content {
-    margin-left: 0;
-    width: 100%;
-    padding-top: 140px; /* tránh đè navbar + menu */
-  }
-}
-
-.navbar-toggle {
-  display: none;
-  flex-direction: column;
-  cursor: pointer;
-}
-
-.navbar-toggle .bar {
-  width: 25px;
-  height: 3px;
-  background: white;
-  margin: 4px 0;
-}
-.mobile-menu {
-  position: fixed;
-  top: 60px; /* chiều cao navbar */
-  left: 0;
-  width: 100%;
-  background: white;
-  z-index: 999;
-  border-bottom: 1px solid #ddd;
-}
-
-.mobile-menu ul {
-  list-style: none;
-  padding: 10px;
-  margin: 0;
-}
-
-.mobile-menu li {
-  padding: 12px 0;
-  border-bottom: 1px solid #eee;
-}
-
-.mobile-menu a,
-.mobile-menu button {
-  text-decoration: none;
-  color: #333;
-  background: none;
-  border: none;
-  font-size: 16px;
-}
-@media (max-width: 768px) {
-  .navSidebar {
-    display: none;
-  }
-
-  .desktop-menu {
-    display: none;
-  }
-
-  .navbar-toggle {
-    display: flex;
-  }
-
-  .content {
-    margin-left: 0;
-    width: 100%;
-    padding-top: 140px;
-  }
-}
-
-.menu-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.3);
-  z-index: 998;
-}
-.mobile-menu {
-  animation: slideDown 0.25s ease;
-}
-
-@keyframes slideDown {
-  from {
-    transform: translateY(-10px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-/* Desktop menu */
-.desktop-menu ul {
-  display: flex;
-  align-items: center;      /* Căn giữa theo chiều dọc */
-  gap: 20px;                /* Khoảng cách giữa các item */
-  margin: 0;
-  padding: 0;
-}
-
-.desktop-menu li {
-  list-style: none;
-  white-space: nowrap;      /* Không cho xuống dòng */
-}
-
-/* Link + button đồng bộ */
-.desktop-menu a,
-.desktop-menu button,
-.desktop-menu span {
-  display: flex;
-  align-items: center;
-  color: white;
-  background: none;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-  padding: 0;
-}
 
 
 

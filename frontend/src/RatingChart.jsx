@@ -12,17 +12,18 @@ import {
 
 // Cấu hình dải màu rating
 const RATING_BANDS = [
-  { y1: 0,    y2: 1200, fill: '#CCCCCC', label: 'Newbie' },
-  { y1: 1200, y2: 1400, fill: '#77FF77', label: 'Pupil' },
-  { y1: 1400, y2: 1600, fill: '#77DDFF', label: 'Specialist' },
-  { y1: 1600, y2: 1900, fill: '#AAAAFF', label: 'Expert' },
-  { y1: 1900, y2: 2100, fill: '#FF88FF', label: 'CM' },
-  { y1: 2100, y2: 2300, fill: '#FFCC88', label: 'Master' },
-  { y1: 2300, y2: 2400, fill: '#FFBB55', label: 'IM' },
-  { y1: 2400, y2: 2600, fill: '#FF7777', label: 'GM' },
-  { y1: 2600, y2: 3000, fill: '#FF3333', label: 'IGM' },
-  { y1: 3000, y2: 4000, fill: '#AA0000', label: 'LGM' },
+  { y1: 0, y2: 1200, fill: '#CCCCCC' },
+  { y1: 1200, y2: 1400, fill: '#77FF77' },
+  { y1: 1400, y2: 1600, fill: '#77DDFF' },
+  { y1: 1600, y2: 1900, fill: '#AAAAFF' },
+  { y1: 1900, y2: 2100, fill: '#FF88FF' },
+  { y1: 2100, y2: 2300, fill: '#FFCC88' },
+  { y1: 2300, y2: 2400, fill: '#FFBB55' },
+  { y1: 2400, y2: 2600, fill: '#FF7777' },
+  { y1: 2600, y2: 3000, fill: '#FF3333' },
+  { y1: 3000, y2: 4000, fill: '#AA0000' },
 ];
+
 
 // Hàm sinh dữ liệu từ 2018 đến nay
 const generateData = () => {
@@ -34,17 +35,17 @@ const generateData = () => {
     // Giả định mỗi năm thi 12 contest (mỗi tháng 1 cái) cho biểu đồ mượt hơn
     for (let i = 0; i < 12; i++) {
       // Logic random rating
-      rating += Math.floor(Math.random() * 100) - 30; 
-      
+      rating += Math.floor(Math.random() * 100) - 30;
+
       // Giới hạn rating cho thực tế
-      if (rating > 3800) rating = 3800; 
+      if (rating > 3800) rating = 3800;
       if (rating < 0) rating = 0;
 
       // Không generate dữ liệu tương lai (nếu đang ở năm hiện tại)
       if (year === currentYear && i > new Date().getMonth()) break;
 
       data.push({
-        date: new Date(year, i, 1).getTime(), 
+        date: new Date(year, i, 1).getTime(),
         rating: rating,
         contestName: `Codeforces Round #${year * 10 + i}`
       });
@@ -63,21 +64,25 @@ const formatXAxis = (tickItem) => {
 const RatingChart = () => {
   return (
     <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px', backgroundColor: '#f0f0f0' }}>
-      
+
       {/* Main Chart Container */}
-      <div style={{ 
-        border: '1px solid #999', 
-        backgroundColor: '#fff', 
+      <div style={{
+        border: '1px solid #999',
+        backgroundColor: '#fff',
         padding: '10px 10px 0 0',
         position: 'relative',
-        height: '500px'
+        height: '300px',
+        minHeight: '300px',
+        maxHeight: '300px',
+        overflowX: 'auto'
       }}>
-        
+
+
         {/* Legend Box */}
         <div style={{
           position: 'absolute',
-          top: 14, 
-          right: 10,
+          top: 14,
+          right: 26,
           zIndex: 10,
           backgroundColor: 'rgba(255,255,255,0.8)',
           border: '1px solid #ccc',
@@ -96,7 +101,7 @@ const RatingChart = () => {
             data={data}
             margin={{ top: 5, right: 0, left: 0, bottom: 5 }}
           >
-            <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={true} stroke="#ccc" />
+            <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={true} stroke="#b5b5b5" />
 
             {RATING_BANDS.map((band, index) => (
               <ReferenceArea
@@ -109,31 +114,36 @@ const RatingChart = () => {
               />
             ))}
 
-            <XAxis 
-              dataKey="date" 
-              type="number" 
-              domain={['dataMin', 'dataMax']} 
+            <XAxis
+              dataKey="date"
+              type="number"
+              domain={['dataMin', 'dataMax']}
               tickFormatter={formatXAxis}
               tickCount={8} // Giảm số lượng tick xíu vì khoảng thời gian ngắn hơn
               tick={{ fontSize: 12 }}
             />
 
-            <YAxis 
-              domain={[1200, 4000]} 
+            <YAxis
+              domain={[1200, 4000]}
               ticks={[1200, 1400, 1600, 1900, 2100, 2300, 2400, 2600, 3000]}
               tick={{ fontSize: 11 }}
             />
 
-            <Tooltip 
+            <Tooltip
               labelFormatter={(label) => new Date(label).toLocaleDateString()}
             />
 
             <Line
-              type="monotone" 
+              type="monotone"
               dataKey="rating"
-              stroke="#FFD700" 
+              stroke="#E6B800"
               strokeWidth={2}
-              dot={{ stroke: '#FFD700', strokeWidth: 1, fill: 'white', r: 3 }}
+              dot={{
+                stroke: '#E6B800',
+                strokeWidth: 1,
+                fill: '#ffffff',
+                r: 3
+              }}
               activeDot={{ r: 6 }}
               isAnimationActive={true}
             />

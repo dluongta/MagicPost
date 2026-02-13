@@ -72,16 +72,16 @@ user.verificationExpiresAt = new Date(Date.now() + 3 * 60 * 1000);
 
   const link = `https://mgpost.onrender.com/api/validate/${validationToken}`;
 
-  // Send validation email
 let transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true, // QUAN TRỌNG
+  host: "smtp-relay.brevo.com",
+  port: 587,
+  secure: false,
   auth: {
-    user: process.env.MAIL_USERNAME,
-    pass: process.env.MAIL_APP_PASSWORD,
+    user: process.env.BREVO_USER,
+    pass: process.env.BREVO_PASS,
   },
 });
+
 
 
 

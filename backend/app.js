@@ -49,16 +49,16 @@ app.post("/api/forgot-password", async (req, res) => {
     const token = jwt.sign({ email: oldUser.email, id: oldUser._id }, secret, { expiresIn: "5m" });
     const link = `https://mgpost.onrender.com/api/reset-password/${oldUser._id}/${token}`;
 
-    // Create a transporter using Nodemailer
 let transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true, // QUAN TRỌNG
+  host: "smtp-relay.brevo.com",
+  port: 587,
+  secure: false,
   auth: {
-    user: process.env.MAIL_USERNAME,
-    pass: process.env.MAIL_APP_PASSWORD,
+    user: process.env.BREVO_USER,
+    pass: process.env.BREVO_PASS,
   },
 });
+
 
 
 
@@ -175,16 +175,16 @@ app.post('/resend-verification', async (req, res) => {
 
   const link = `https://mgpost.onrender.com/api/validate/${validationToken}`;
 
-  // Send verification email
 let transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true, // QUAN TRỌNG
+  host: "smtp-relay.brevo.com",
+  port: 587,
+  secure: false,
   auth: {
-    user: process.env.MAIL_USERNAME,
-    pass: process.env.MAIL_APP_PASSWORD,
+    user: process.env.BREVO_USER,
+    pass: process.env.BREVO_PASS,
   },
 });
+
 
 
   const mailOptions = {

@@ -198,7 +198,7 @@ body {
 }
 .navSidebar h1 {
   font-size: 30px;
-  font-weight:500;
+  font-weight:700;
 }
 .navSidebar li {
   margin-top: 18px;
@@ -299,7 +299,7 @@ body {
 }
 
 .branding h2 {
-  font-weight: 500;
+  font-weight: 700;
   font-size: 22px;
   margin: 10px 0 20px 0;
 }
@@ -469,7 +469,7 @@ body {
 }
 .main h1 {
   font-size: 30px;
-  font-weight: bold;
+  font-weight: 700;
   margin-bottom: 10px;
 }
 .main p {
@@ -480,39 +480,38 @@ body {
   margin-bottom: 50px;
 }
 .unread-label {
-  font-size: 0.75rem; /* Small text size */
-  color: #000000; /* Red color or any other color for the label */
-  font-weight: 400; /* Normal weight */
-  margin-left: 0.5rem; /* Spacing between the email and label */
+  font-size: 0.75rem; 
+  color: #000000; 
+  font-weight: 700; 
+  margin-left: 0.5rem;
 }
 
 .font-bold {
-  font-weight: bold; /* Make text bold */
+  font-weight: 700; 
 }
-/* In your styles.css or another stylesheet */
 .unread-label {
-  font-size: 0.75rem; /* Small text size */
-  color: #000000; /* Red color or any other color for the label */
-  font-weight: 400; /* Normal weight */
-  margin-left: 0.5rem; /* Spacing between the email and label */
+  font-size: 0.75rem; 
+  color: #000000; 
+  font-weight: 700;
+  margin-left: 0.5rem;
 }
 iframe { border: none; width: 100%; height: 500px; }
 
 .marquee-container {
-  width: 100%;  /* Chiếm toàn bộ chiều rộng */
-  height: 50px; /* Đặt chiều cao cho marquee */
-  overflow: hidden;  /* Đảm bảo văn bản không tràn ra ngoài */
-  position: relative;  /* Đảm bảo marquee nằm đúng vị trí */
+  width: 100%; 
+  height: 50px; 
+  overflow: hidden; 
+  position: relative;  
   z-index: 1000;
-  position: fixed; /* Để navbar luôn ở trên cùng */
+  position: fixed;
 
 }
 
 marquee {
-  color: white;  /* Màu chữ */
-  font-size: 15px;  /* Kích thước chữ */
-  background-color: #3498db; /* Màu nền */
-  padding: 5px 0; /* Padding xung quanh văn bản */
+  color: white; 
+  font-size: 15px; 
+  background-color: #3498db; 
+  padding: 5px 0; 
 }
 
 :root {
@@ -522,13 +521,13 @@ marquee {
 .nav-links li:first-child,
 .user-info {
   color: var(--primary-blue);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .logout-btn,
 .logout {
   color: var(--primary-blue);
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
 }
 

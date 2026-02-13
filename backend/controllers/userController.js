@@ -3,6 +3,7 @@ import generateToken from '../utils/generateToken.js';
 import User from '../models/userModel.js';
 import jwt from 'jsonwebtoken'; // Ensure this import is present
 import nodemailer from 'nodemailer'; // Ensure this import is present
+import sendEmail from "../utils/sendEmail.js";
 
 
 // @desc    Auth user & get token
@@ -72,33 +73,50 @@ user.verificationExpiresAt = new Date(Date.now() + 3 * 60 * 1000);
 
   const link = `https://mgpost.onrender.com/api/validate/${validationToken}`;
 
-let transporter = nodemailer.createTransport({
-  host: "smtp-relay.brevo.com",
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.BREVO_USER,
-    pass: process.env.BREVO_PASS,
-  },
-});
-
-
-
-
-  const mailOptions = {
-    from: process.env.MAIL_USERNAME,
-    to: email,
-    subject: "Account Verification",
-    html: `<p>Click this link to verify your account: <a href="${link}">${link}</a>.</p>
-     <p>Your Verification Is Expired After 3 Minutes.</p>`,
-  };
 
   try {
-  await transporter.sendMail(mailOptions);
-  console.log("Mail sent");
+  await sendEmail({
+    to: email,
+    subject: "Account Verification",
+    html: `
+      <p>Click to verify:</p>
+      <a href="${link}">${link}</a>
+      <p>Expires in 3 minutes</p>
+    `,
+  });
+
+  console.log("Brevo email sent");
 } catch (error) {
-  console.error("Mail error:", error.message);
+  console.error("Brevo error:", error.response?.body || error.message);
 }
+
+// let transporter = nodemailer.createTransport({
+//   host: "smtp-relay.brevo.com",
+//   port: 587,
+//   secure: false,
+//   auth: {
+//     user: process.env.BREVO_USER,
+//     pass: process.env.BREVO_PASS,
+//   },
+// });
+
+
+
+
+//   const mailOptions = {
+//     from: process.env.MAIL_USERNAME,
+//     to: email,
+//     subject: "Account Verification",
+//     html: `<p>Click this link to verify your account: <a href="${link}">${link}</a>.</p>
+//      <p>Your Verification Is Expired After 3 Minutes.</p>`,
+//   };
+
+//   try {
+//   await transporter.sendMail(mailOptions);
+//   console.log("Mail sent");
+// } catch (error) {
+//   console.error("Mail error:", error.message);
+// }
 
   
   // Redirect user if account is not validated

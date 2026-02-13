@@ -49,39 +49,55 @@ app.post("/api/forgot-password", async (req, res) => {
     const token = jwt.sign({ email: oldUser.email, id: oldUser._id }, secret, { expiresIn: "5m" });
     const link = `https://mgpost.onrender.com/api/reset-password/${oldUser._id}/${token}`;
 
-let transporter = nodemailer.createTransport({
-  host: "smtp-relay.brevo.com",
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.BREVO_USER,
-    pass: process.env.BREVO_PASS,
-  },
-});
+  try {
+  await sendEmail({
+    to: email,
+    subject: "Account Verification",
+    html: `
+      <p>Click to verify:</p>
+      <a href="${link}">${link}</a>
+      <p>Expires in 3 minutes</p>
+    `,
+  });
 
-
-
-
-    const mailOptions = {
-      from: process.env.MAIL_USERNAME,
-      to: email,
-      subject: "Password Reset",
-      html: `
-        <p>Click this link to reset your password:</p>
-        <a href="${link}" target="_blank">${link}</a>
-      `,
-    };
-
-try {
-  await transporter.verify()
-  .then(() => console.log("SMTP READY"))
-  .catch(err => console.log("SMTP ERROR:", err));
-
-  await transporter.sendMail(mailOptions);
-  console.log("Mail sent");
+  console.log("Brevo email sent");
 } catch (error) {
-  console.error("Mail error:", error.message);
+  console.error("Brevo error:", error.response?.body || error.message);
 }
+
+// let transporter = nodemailer.createTransport({
+//   host: "smtp-relay.brevo.com",
+//   port: 587,
+//   secure: false,
+//   auth: {
+//     user: process.env.BREVO_USER,
+//     pass: process.env.BREVO_PASS,
+//   },
+// });
+
+
+
+
+//     const mailOptions = {
+//       from: process.env.MAIL_USERNAME,
+//       to: email,
+//       subject: "Password Reset",
+//       html: `
+//         <p>Click this link to reset your password:</p>
+//         <a href="${link}" target="_blank">${link}</a>
+//       `,
+//     };
+
+// try {
+//   await transporter.verify()
+//   .then(() => console.log("SMTP READY"))
+//   .catch(err => console.log("SMTP ERROR:", err));
+
+//   await transporter.sendMail(mailOptions);
+//   console.log("Mail sent");
+// } catch (error) {
+//   console.error("Mail error:", error.message);
+// }
     console.log("Email sent successfully:", link);
     res.json({ status: "Reset Link Sent" });
 
@@ -175,42 +191,56 @@ app.post('/resend-verification', async (req, res) => {
 
   const link = `https://mgpost.onrender.com/api/validate/${validationToken}`;
 
-let transporter = nodemailer.createTransport({
-  host: "smtp-relay.brevo.com",
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.BREVO_USER,
-    pass: process.env.BREVO_PASS,
-  },
-});
+// let transporter = nodemailer.createTransport({
+//   host: "smtp-relay.brevo.com",
+//   port: 587,
+//   secure: false,
+//   auth: {
+//     user: process.env.BREVO_USER,
+//     pass: process.env.BREVO_PASS,
+//   },
+// });
 
 
 
-  const mailOptions = {
-    from: process.env.MAIL_USERNAME,
-    to: email,
-    subject: "Account Verification",
-    html: `Click this link to verify your account: <a href="${link}">${link}</a>`,
-  };
+//   const mailOptions = {
+//     from: process.env.MAIL_USERNAME,
+//     to: email,
+//     subject: "Account Verification",
+//     html: `Click this link to verify your account: <a href="${link}">${link}</a>`,
+//   };
+
+//   try {
+//     await transporter.verify()
+//   .then(() => console.log("SMTP READY"))
+//   .catch(err => console.log("SMTP ERROR:", err));
+
+//   await transporter.sendMail(mailOptions);
+//   console.log("Mail sent");
+// } catch (error) {
+//   console.error("Mail error:", error.message);
+// }
+// ;
 
   try {
-    await transporter.verify()
-  .then(() => console.log("SMTP READY"))
-  .catch(err => console.log("SMTP ERROR:", err));
+  await sendEmail({
+    to: email,
+    subject: "Account Verification",
+    html: `
+      <p>Click to verify:</p>
+      <a href="${link}">${link}</a>
+      <p>Expires in 3 minutes</p>
+    `,
+  });
 
-  await transporter.sendMail(mailOptions);
-  console.log("Mail sent");
+  console.log("Brevo email sent");
 } catch (error) {
-  console.error("Mail error:", error.message);
+  console.error("Brevo error:", error.response?.body || error.message);
 }
-;
+
   res.json({ message: "Verification email sent." });
 });
 
-
-console.log("MAIL_USERNAME:", process.env.MAIL_USERNAME);
-console.log("MAIL_APP_PASSWORD:", process.env.MAIL_APP_PASSWORD ? "EXISTS" : "MISSING");
 
 const __dirname = path.resolve();
 

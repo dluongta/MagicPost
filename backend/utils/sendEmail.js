@@ -11,7 +11,7 @@ const sendEmail = async ({ to, subject, html }) => {
   const sendSmtpEmail = new brevo.SendSmtpEmail();
 
   sendSmtpEmail.sender = {
-    email: "luen2k3@gmail.com", // PHẢI là email đã verify
+    email: "luen2k3@gmail.com",
     name: "MGPost"
   };
 

@@ -85,7 +85,7 @@ const Login = () => {
         <input type="submit" className="btn" value="login now" />
         <p>Don't have an account? <a href="/register">Sign up</a></p>
         <p>Forgot password? <a href="/forgot-password" onClick={forgotPasswordHandler}>Reset Password</a></p>
-        <p>Verify Your Account? <a href="/verify-page">Verify Now</a></p>
+        {/* <p>Verify Your Account? <a href="/verify-page">Verify Now</a></p> */}
       </form>
     </div>
   );

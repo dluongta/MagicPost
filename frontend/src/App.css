@@ -515,4 +515,30 @@ marquee {
   padding: 5px 0; /* Padding xung quanh văn bản */
 }
 
+:root {
+  --primary-blue: #0d6efd;   
+}
+
+.nav-links li:first-child,
+.user-info {
+  color: var(--primary-blue);
+  font-weight: 600;
+}
+
+.logout-btn,
+.logout {
+  color: var(--primary-blue);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.logout-btn:hover,
+.logout:hover {
+  opacity: 0.8;
+}
+
+.nav-links a,
+.drawer-list a {
+  color: var(--primary-blue);
+}
 

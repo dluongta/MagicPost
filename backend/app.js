@@ -138,10 +138,11 @@ app.get("/api/validate/:token", async (req, res) => {
     }
 
     user.isValidated = true;
-    user.validationToken = undefined; // Clear the validation token
+    user.validationToken = undefined;
+    user.verificationExpiresAt = undefined; 
     await user.save();
 
-    res.redirect("/account-verified"); // Redirect to a confirmation page
+    res.redirect("/account-verified"); 
   } catch (error) {
     res.status(400).json({ message: "Invalid or expired token" });
   }

@@ -73,13 +73,16 @@ user.verificationExpiresAt = new Date(Date.now() + 3 * 60 * 1000);
   const link = `https://mgpost.onrender.com/api/validate/${validationToken}`;
 
   // Send validation email
-  let transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.MAIL_USERNAME,
-      pass: process.env.MAIL_APP_PASSWORD,
-    },
-  });
+let transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false,
+  auth: {
+    user: process.env.MAIL_USERNAME,
+    pass: process.env.MAIL_APP_PASSWORD,
+  },
+});
+
 
   const mailOptions = {
     from: process.env.MAIL_USERNAME,

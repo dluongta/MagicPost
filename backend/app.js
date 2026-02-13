@@ -166,13 +166,16 @@ app.post('/resend-verification', async (req, res) => {
   const link = `https://mgpost.onrender.com/api/validate/${validationToken}`;
 
   // Send verification email
-  let transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.MAIL_USERNAME,
-      pass: process.env.MAIL_APP_PASSWORD,
-    },
-  });
+let transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false,
+  auth: {
+    user: process.env.MAIL_USERNAME,
+    pass: process.env.MAIL_APP_PASSWORD,
+  },
+});
+
 
   const mailOptions = {
     from: process.env.MAIL_USERNAME,
@@ -216,7 +219,7 @@ const server = app.listen(
 
 const io = new Server(server, {
   cors: {
-    origin: "https://mgpost.onrender.com/",
+    origin: "https://mgpost.onrender.com",
     credentials: true,
   },
 });

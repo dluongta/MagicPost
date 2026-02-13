@@ -1,7 +1,7 @@
 {
   "name": "frontend",
   "version": "0.1.0",
-  "proxy": "https://mgpost.onrender.com/",
+  "proxy": "https://mgpost.onrender.com",
   "private": true,
   "dependencies": {
     "@headlessui/react": "^1.6.6",

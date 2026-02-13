@@ -92,7 +92,13 @@ let transporter = nodemailer.createTransport({
      <p>Your Verification Is Expired After 3 Minutes.</p>`,
   };
 
+  try {
   await transporter.sendMail(mailOptions);
+  console.log("Mail sent");
+} catch (error) {
+  console.error("Mail error:", error.message);
+}
+
   
   // Redirect user if account is not validated
   if (!user.isValidated) {

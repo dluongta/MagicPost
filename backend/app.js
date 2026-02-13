@@ -71,7 +71,12 @@ app.post("/api/forgot-password", async (req, res) => {
       `,
     };
 
-    await transporter.sendMail(mailOptions);
+try {
+  await transporter.sendMail(mailOptions);
+  console.log("Mail sent");
+} catch (error) {
+  console.error("Mail error:", error.message);
+}
     console.log("Email sent successfully:", link);
     res.json({ status: "Reset Link Sent" });
 
@@ -184,7 +189,13 @@ let transporter = nodemailer.createTransport({
     html: `Click this link to verify your account: <a href="${link}">${link}</a>`,
   };
 
+  try {
   await transporter.sendMail(mailOptions);
+  console.log("Mail sent");
+} catch (error) {
+  console.error("Mail error:", error.message);
+}
+;
   res.json({ message: "Verification email sent." });
 });
 

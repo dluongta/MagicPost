@@ -50,15 +50,16 @@ app.post("/api/forgot-password", async (req, res) => {
     const link = `https://mgpost.onrender.com/api/reset-password/${oldUser._id}/${token}`;
 
     // Create a transporter using Nodemailer
-  let transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,
-    auth: {
-      user: process.env.MAIL_USERNAME,
-      pass: process.env.MAIL_APP_PASSWORD,
-    },
-  });
+let transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true, // QUAN TRỌNG
+  auth: {
+    user: process.env.MAIL_USERNAME,
+    pass: process.env.MAIL_APP_PASSWORD,
+  },
+});
+
 
 
     const mailOptions = {
@@ -172,9 +173,9 @@ app.post('/resend-verification', async (req, res) => {
 
   // Send verification email
 let transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true, // QUAN TRỌNG
   auth: {
     user: process.env.MAIL_USERNAME,
     pass: process.env.MAIL_APP_PASSWORD,

@@ -74,14 +74,15 @@ user.verificationExpiresAt = new Date(Date.now() + 3 * 60 * 1000);
 
   // Send validation email
 let transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true, // QUAN TRỌNG
   auth: {
     user: process.env.MAIL_USERNAME,
     pass: process.env.MAIL_APP_PASSWORD,
   },
 });
+
 
 
   const mailOptions = {

@@ -59,7 +59,7 @@ const registerUser = asyncHandler(async (req, res) => {
     password,
   });
 
-  //Token chỉ có hiệu lực 3 phút
+  // Token có hiệu lực 3 phút
   const validationToken = jwt.sign(
     { email: user.email },
     process.env.JWT_SECRET,
@@ -67,6 +67,9 @@ const registerUser = asyncHandler(async (req, res) => {
   );
 
   user.validationToken = validationToken;
+
+  //SET EXPIRY CHỈ CHO USER CHƯA VERIFY
+  user.verificationExpiresAt = new Date(Date.now() + 3 * 60 * 1000);
 
   await user.save();
 
@@ -116,11 +119,12 @@ const validateUser = asyncHandler(async (req, res) => {
       throw new Error('Invalid verification token');
     }
 
+    // VERIFY THÀNH CÔNG
     user.isValidated = true;
     user.validationToken = undefined;
 
+    // QUAN TRỌNG: XÓA EXPIRY ĐỂ TTL KHÔNG XÓA USER
     user.verificationExpiresAt = undefined;
-
 
     await user.save();
 
@@ -128,7 +132,6 @@ const validateUser = asyncHandler(async (req, res) => {
 
   } catch (error) {
 
-    // Token hết hạn sau 3 phút
     if (error.name === 'TokenExpiredError') {
       return res.status(400).json({
         message: 'Verification link expired. Please register again.',

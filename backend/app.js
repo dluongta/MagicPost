@@ -201,7 +201,11 @@ let transporter = nodemailer.createTransport({
 });
 
 
+console.log("MAIL_USERNAME:", process.env.MAIL_USERNAME);
+console.log("MAIL_APP_PASSWORD:", process.env.MAIL_APP_PASSWORD ? "EXISTS" : "MISSING");
 
+await transporter.verify();
+console.log("SMTP READY");
 
 const __dirname = path.resolve();
 

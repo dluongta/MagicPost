@@ -9,6 +9,7 @@ import {
   deleteUser,
   getUserById,
   updateUser,
+  validateUser
 } from '../controllers/userController.js'
 import { protect, admin } from '../middleware/authMiddleware.js'
 
@@ -23,5 +24,7 @@ router
   .delete(protect, admin, deleteUser)
   .get(protect, getUserById)
   .put(protect, admin, updateUser)
+
+router.get('/validate/:token', validateUser);
 
 export default router

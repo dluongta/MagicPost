@@ -1,25 +1,29 @@
 import asyncHandler from 'express-async-handler';
 import generateToken from '../utils/generateToken.js';
 import User from '../models/userModel.js';
-import jwt from 'jsonwebtoken'; // Ensure this import is present
-import nodemailer from 'nodemailer'; // Ensure this import is present
+import jwt from 'jsonwebtoken';
+import nodemailer from 'nodemailer';
 
 
-// @desc    Auth user & get token
-// @route   POST /api/users/login
-// @access  Public
+/* =========================
+   LOGIN
+========================= */
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  // Find the user by email
   const user = await User.findOne({ email });
 
-  // Check if user exists
   if (!user) {
     res.status(401);
     throw new Error('No Account Found');
   }
-  // Check if the password matches
+
+  // Không cho login nếu chưa verify
+  if (!user.isValidated) {
+    res.status(401);
+    throw new Error('Please verify your email before logging in');
+  }
+
   if (await user.matchPassword(password)) {
     res.json({
       _id: user._id,
@@ -35,9 +39,10 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Register a new user
-// @route   POST /api/users
-// @access  Public
+
+/* =========================
+   REGISTER
+========================= */
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -48,22 +53,26 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error('User already exists');
   }
 
-  const user = await User({
+  const user = new User({
     name,
     email,
     password,
   });
 
-  // Generate validation token
-  const validationToken = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: "1d" });
+  //Token chỉ có hiệu lực 3 phút
+  const validationToken = jwt.sign(
+    { email: user.email },
+    process.env.JWT_SECRET,
+    { expiresIn: '3m' }
+  );
+
   user.validationToken = validationToken;
 
   await user.save();
 
-  const link = `https://mgpost.onrender.com/api/validate/${validationToken}`;
+  const link = `https://mgpost.onrender.com/api/users/validate/${validationToken}`;
 
-  // Send validation email
-  let transporter = nodemailer.createTransport({
+  const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
       user: process.env.MAIL_USERNAME,
@@ -71,39 +80,73 @@ const registerUser = asyncHandler(async (req, res) => {
     },
   });
 
-  const mailOptions = {
+  await transporter.sendMail({
     from: process.env.MAIL_USERNAME,
     to: email,
-    subject: "Account Verification",
-    html: `<p>Click this link to verify your account: <a href="${link}">${link}</a>.</p>
-     <p>Your Verification Is Expired After 3 Minutes.</p>`,
-  };
-
-  await transporter.sendMail(mailOptions);
-  
-  // Redirect user if account is not validated
-  if (!user.isValidated) {
-    return res.status(201).json({
-      message: "Registration successful! Check your email to verify your account."
-    });
-  }
+    subject: 'Account Verification',
+    html: `
+      <p>Click the link below to verify your account:</p>
+      <a href="${link}">${link}</a>
+      <p>This link will expire in 3 minutes.</p>
+    `,
+  });
 
   res.status(201).json({
-    _id: user._id,
-    name: user.name,
-    email: user.email,
-    isAdmin: user.isAdmin,
-    token: generateToken(user._id),
+    message: 'Registration successful! Please check your email to verify your account.',
   });
 });
 
-// @desc    Get user profile
-// @route   GET /api/users/profile
-// @access  Private
+
+/* =========================
+   VERIFY ACCOUNT
+========================= */
+const validateUser = asyncHandler(async (req, res) => {
+  const { token } = req.params;
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    const user = await User.findOne({
+      email: decoded.email,
+      validationToken: token,
+    });
+
+    if (!user) {
+      res.status(400);
+      throw new Error('Invalid verification token');
+    }
+
+    user.isValidated = true;
+    user.validationToken = undefined;
+
+    user.verificationExpiresAt = undefined;
+
+
+    await user.save();
+
+    res.json({ message: 'Account verified successfully!' });
+
+  } catch (error) {
+
+    // Token hết hạn sau 3 phút
+    if (error.name === 'TokenExpiredError') {
+      return res.status(400).json({
+        message: 'Verification link expired. Please register again.',
+      });
+    }
+
+    return res.status(400).json({
+      message: 'Invalid verification token',
+    });
+  }
+});
+
+
+/* =========================
+   PROFILE
+========================= */
 const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
-  console.log(user)
-
 
   if (user) {
     res.json({
@@ -119,22 +162,19 @@ const getUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Update user profile
-// @route   PUT /api/users/profile
-// @access  Private
+
 const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
   if (user) {
-    const updatedUser = await User.findByIdAndUpdate(
-      req.user._id,
-      {
-        name: req.body.name || user.name,
-        email: req.body.email || user.email,
-        password: req.body.password ? req.body.password : user.password, // Keep existing password if not updating
-      },
-      { new: true } // Return the updated document
-    );
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+
+    if (req.body.password) {
+      user.password = req.body.password;
+    }
+
+    const updatedUser = await user.save();
 
     res.json({
       _id: updatedUser._id,
@@ -149,21 +189,20 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Get all users
-// @route   GET /api/users
-// @access  Private/Admin
+
+/* =========================
+   ADMIN FUNCTIONS
+========================= */
 const getUsers = asyncHandler(async (req, res) => {
   const users = await User.find({});
   res.json(users);
 });
 
-// @desc    Delete user
-// @route   DELETE /api/users/:id
-// @access  Private/Admin
 const deleteUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
+
   if (user) {
-    await User.findByIdAndDelete(req.params.id);
+    await user.deleteOne();
     res.json({ message: 'User removed' });
   } else {
     res.status(404);
@@ -171,9 +210,6 @@ const deleteUser = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Get user by ID
-// @route   GET /api/users/:id
-// @access  Private/Admin
 const getUserById = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id).select('-password');
 
@@ -185,55 +221,27 @@ const getUserById = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Update user
-// @route   PUT /api/users/:id
-// @access  Private/Admin
 const updateUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
 
   if (user) {
-    const updatedUser = await User.findByIdAndUpdate(
-      req.params.id,
-      {
-        name: req.body.name || user.name,
-        email: req.body.email || user.email,
-        isAdmin: req.body.isAdmin,
-      },
-      { new: true } // Return the updated document
-    );
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    user.isAdmin = req.body.isAdmin;
 
-    res.json({
-      _id: updatedUser._id,
-      name: updatedUser.name,
-      email: updatedUser.email,
-      isAdmin: updatedUser.isAdmin,
-    });
+    const updatedUser = await user.save();
+
+    res.json(updatedUser);
   } else {
     res.status(404);
     throw new Error('User not found');
   }
 });
 
-// Function to delete unvalidated users
-const deleteUnvalidatedUsers = async () => {
-  try {
-    const cutoffDate = new Date(Date.now() - 3 * 60 * 1000); // 3 minutes ago
-    const result = await User.deleteMany({ 
-      isValidated: false,
-      createdAt: { $lt: cutoffDate }
-    });
-    console.log(`Deleted ${result.deletedCount} unvalidated users.`);
-  } catch (error) {
-    console.error('Error deleting unvalidated users:', error);
-  }
-};
-
-// Set up an interval to run the function every minute
-setInterval(deleteUnvalidatedUsers, 60 * 1000); // Every 60 seconds
-
 export {
   authUser,
   registerUser,
+  validateUser,
   getUserProfile,
   updateUserProfile,
   getUsers,

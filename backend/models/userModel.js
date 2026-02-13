@@ -28,6 +28,11 @@ const userSchema = mongoose.Schema(
     },
     validationToken: {
       type: String,
+    },    
+    verificationExpiresAt: {
+      type: Date,
+      default: () => new Date(Date.now() + 3 * 60 * 1000), 
+      expires: 0, 
     },
   },
   {

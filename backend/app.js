@@ -73,6 +73,10 @@ let transporter = nodemailer.createTransport({
     };
 
 try {
+  await transporter.verify()
+  .then(() => console.log("SMTP READY"))
+  .catch(err => console.log("SMTP ERROR:", err));
+
   await transporter.sendMail(mailOptions);
   console.log("Mail sent");
 } catch (error) {
@@ -191,6 +195,10 @@ let transporter = nodemailer.createTransport({
   };
 
   try {
+    await transporter.verify()
+  .then(() => console.log("SMTP READY"))
+  .catch(err => console.log("SMTP ERROR:", err));
+
   await transporter.sendMail(mailOptions);
   console.log("Mail sent");
 } catch (error) {

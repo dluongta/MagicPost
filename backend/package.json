@@ -1,34 +1,30 @@
 {
-  "name": "magicpost",
+  "name": "be",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app",
-    "data:import": "node seeder",
-    "data:destroy": "node seeder -d"
+    "start": "node backend/app.js",
+    "server": "nodemon backend/app.js",
+    "client": "npm start --prefix frontend",
+    "build": "npm run build --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "data:import": "node backend/seeder",
+    "data:destroy": "node backend/seeder -d"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+
+  "overrides": {
+    "serialize-javascript": "^6.0.2",
+    "tar": "^6.2.1",
+    "node-tar": "^6.2.1",
+    "minimatch": "^9.0.5",
+    "flatted": "^3.3.1"
+  },
+
   "dependencies": {
+    "@getbrevo/brevo": "^3.0.1",
     "axios": "^1.13.5",
-    "bcrypt": "^5.1.1",
-    "concurrently": "^8.2.2",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "express-async-handler": "^1.2.0",
-    "form-data": "^3.0.4",
-    "http-proxy-middleware": "^2.0.7",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.8.3",
-    "morgan": "^1.10.0",
-    "nodemailer": "^7.0.7",
-    "nodemon": "^3.1.4",
-    "react-timeago": "^7.2.0",
-    "socket.io": "^4.5.1"
+    "concurrently": "^9.0.1",
+    "nodemon": "^3.1.7"
   }
 }

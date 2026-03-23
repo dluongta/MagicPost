@@ -13,7 +13,7 @@ import chatMessageRoutes from "./routes/chatMessage.js";
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
 import User from './models/userModel.js';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import sendEmail from './utils/sendEmail.js';
 dotenv.config();
 connectDB();
@@ -29,6 +29,7 @@ app.use(cors({
   origin: 'https://mgpost.onrender.com',
   credentials: true,
 }));
+
 
 app.use('/api/posts', postRoutes);
 app.use('/api/users', userRoutes);

@@ -59,10 +59,10 @@ const Homepage = () => {
         <RatingChart/>
         <Charts />
         <AreaChartComponent />
-        <Steps />
-        <CTA />
-        <Pricing />
-        <Testimonial />
+        {/* <Steps /> */}
+        {/* <CTA /> */}
+        {/* <Pricing /> */}
+        {/* <Testimonial /> */}
         <Contact />
         <Footer />
       </div>

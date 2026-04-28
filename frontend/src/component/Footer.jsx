@@ -186,7 +186,7 @@ const Footer = (props) => {
         <div className="footer-credits">
           <div className="thq-divider-horizontal"></div>
           <div className="footer-row">
-            <span className="thq-body-small">{props.content3}</span>
+            <span className="thq-body-small">© {new Date().getFullYear()} Your Company. All Rights Reserved.</span>
             <div className="footer-footer-links3">
               <span className="thq-body-small">{props.privacyLink}</span>
               <span className="thq-body-small">{props.termsLink}</span>
@@ -218,7 +218,7 @@ Footer.defaultProps = {
   link10: 'Sitemap',
   column1Title: 'Company',
   termsLink: 'terms-and-conditions',
-  link3: 'FAQs',
+  link3: 'FAQ',
   link2: 'Contact Us',
   socialLinkTitleCategory: 'Follow Us',
 }

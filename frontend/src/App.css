@@ -202,7 +202,7 @@ body {
 }
 .navSidebar li {
   margin-top: 18px;
-  color: #008cff;
+  color: #fff;
 }
 
 .leftmenuinnerinner {
@@ -272,6 +272,10 @@ body {
 
 .menu li:hover {
     background-color: #008cff;
+    color: #fff;
+}
+.menu li:hover a {
+    color: #fff;
 }
 .content {
   margin-left: 250px;
@@ -356,6 +360,7 @@ body {
 .btn {
   background-color: #008cff;
   font-size: 20px;
+  color: #fff;
 }
 
 .trackForm input[type=text]{

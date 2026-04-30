@@ -225,7 +225,8 @@ body {
 .menu a:hover,
 .nav-links span:hover,
 .drawer-list li.logout:hover {
-  text-decoration: underline;
+  text-decoration: none;
+  color: #fff;
 }
 
 /* Sidebar PC */

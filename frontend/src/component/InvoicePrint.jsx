@@ -6,6 +6,14 @@ const InvoicePrint = () => {
   const { id } = useParams();
   const post = useSelector((state) => state.postList.posts.find(p => p._id === id));
 
+  useEffect(() => {
+    if (post) {
+      setTimeout(() => {
+        window.print();
+      }, 500);
+    }
+  }, [post]);
+
   if (!post) return <div>Loading...</div>;
 
   const currentDateTime = new Date().toLocaleString('vi-VN', {

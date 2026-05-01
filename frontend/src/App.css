@@ -546,3 +546,17 @@ marquee {
   color: var(--primary-blue);
 }
 
+html, body {
+  overflow-x: hidden;
+}
+@media only screen and (max-width: 768px) {
+  .content {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .navSidebar {
+    width: 100%;
+    transform: none;
+  }
+}

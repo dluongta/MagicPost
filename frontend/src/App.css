@@ -22,8 +22,8 @@ ul {
 body {
   margin: 0;
   padding: 0;
-  display: flex; /* Sử dụng flexbox cho body */
-  flex-direction: column; /* Để xếp theo chiều dọc */
+  display: flex; 
+  flex-direction: column;
 }
 
 /* Navbar */
@@ -35,84 +35,81 @@ body {
   color: #fff;
   z-index: 100;
   width: 100%;
-  position: fixed; /* Để navbar luôn ở trên cùng */
+  position: fixed; 
   top: 0;
   left: 0;
   padding: 1rem;
 }
 
-/* Điều chỉnh flexbox cho .brand-title để căn giữa theo chiều dọc */
 .brand-title {
   display: flex;
-  align-items: center; /* Căn giữa theo chiều dọc */
+  align-items: center; 
   margin: 0.8rem;
 }
 
 .brand-title p {
   font-size: 15px;
-  margin-left: 10px; /* Thêm khoảng cách giữa logo và tên */
+  margin-left: 10px; 
 }
 
-/* Các phần khác của CSS giữ nguyên */
+
 
 
 .navSidebar {
-  width: 250px; /* Chiều rộng sidebar */
-  height: calc(100vh - 80px); /* Chiều cao sidebar */
+  width: 250px; 
+  height: calc(100vh - 80px); 
   background-color: aliceblue;
   padding-top: 20px;
-  position: fixed; /* Đặt sidebar cố định */
-  top: 80px; /* Để tránh che khuất navbar */
+  position: fixed;
+  top: 80px; 
   left: 0;
   margin-top: 30px;
 }
 
 .content {
-  margin-left: 250px; /* Để nội dung không bị che khuất bởi sidebar */
-  padding: 20px; /* Thêm padding cho nội dung */
-  width: calc(100% - 250px); /* Để nội dung chiếm phần còn lại */
+  margin-left: 250px;
+  padding: 20px; 
+  width: calc(100% - 250px); 
 }
 
-/* Các phần khác của CSS giữ nguyên */
 @media only screen and (max-width: 768px) {
   .navbar {
     padding: 0.5rem;
   }
 
   .navSidebar {
-    width: 100%; /* Chiếm toàn bộ chiều rộng */
-    height: auto; /* Chiều cao tự động */
-    padding-top: 10px; /* Thay đổi padding */
-    position: relative; /* Để sidebar cuộn cùng với nội dung */
-    top: 60px; /* Để tránh che khuất navbar */
+    width: 100%; 
+    height: auto; 
+    padding-top: 10px;
+    position: relative;
+    top: 60px;
   }
 
   .content {
-    margin-left: 0; /* Không có lề trái cho nội dung */
-    padding: 20px; /* Thêm padding cho nội dung */
-    width: 100%; /* Chiếm toàn bộ chiều rộng */
+    margin-left: 0; 
+    padding: 20px; 
+    width: 100%; 
   }
 
   .leftmenuinnerinner {
-    flex-direction: column; /* Xếp theo chiều dọc */
-    margin-top: 60px; /* Giảm khoảng cách trên */
-    overflow-y: auto; /* Cho phép cuộn nếu nội dung dài */
+    flex-direction: column; 
+    margin-top: 60px; 
+    overflow-y: auto;
   }
 
   .navSidebar li {
-    margin-top: 10px; /* Điều chỉnh khoảng cách giữa các mục */
-    padding: 10px; /* Thêm padding cho mục */
+    margin-top: 10px;
+    padding: 10px;
   }
 
   .menu li {
-    padding-bottom: 0.5rem; /* Giảm padding dưới cho mục */
+    padding-bottom: 0.5rem; 
     padding-right: 10px;
-    width: 100%; /* Đảm bảo chiếm toàn bộ chiều rộng */
+    width: 100%; 
   }
 
-  /* Đẩy các phần tử trong innerinnerleft xuống dưới */
   .innerinnerleft {
-    margin-top: 20px; /* Đẩy xuống dưới */
+    margin-top: 20px; 
   }
   .menu {
     margin-top: 10rem;

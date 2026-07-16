@@ -2,14 +2,12 @@
   "name": "magicpost",
   "version": "1.0.0",
   "type": "module",
-
   "scripts": {
     "start": "node backend/app.js",
     "dev": "nodemon backend/app.js",
     "data:import": "node seeder",
     "data:destroy": "node seeder -d"
   },
-
   "overrides": {
     "serialize-javascript": "^6.0.2",
     "tar": "^7.5.11",
@@ -18,7 +16,6 @@
     "flatted": "^3.3.1",
     "socket.io-parser": "^4.2.4"
   },
-
   "dependencies": {
     "axios": "^1.13.5",
     "bcryptjs": "^2.4.3",
@@ -31,10 +28,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.8.3",
     "morgan": "^1.10.0",
-    "nodemailer": "^8.0.4",
     "socket.io": "^4.7.5"
   },
-
   "devDependencies": {
     "nodemon": "^3.1.4"
   }

@@ -65,39 +65,6 @@ app.post("/api/forgot-password", async (req, res) => {
   console.error("Brevo error:", error.response?.body || error.message);
 }
 
-// let transporter = nodemailer.createTransport({
-//   host: "smtp-relay.brevo.com",
-//   port: 587,
-//   secure: false,
-//   auth: {
-//     user: process.env.BREVO_USER,
-//     pass: process.env.BREVO_PASS,
-//   },
-// });
-
-
-
-
-//     const mailOptions = {
-//       from: process.env.MAIL_USERNAME,
-//       to: email,
-//       subject: "Password Reset",
-//       html: `
-//         <p>Click this link to reset your password:</p>
-//         <a href="${link}" target="_blank">${link}</a>
-//       `,
-//     };
-
-// try {
-//   await transporter.verify()
-//   .then(() => console.log("SMTP READY"))
-//   .catch(err => console.log("SMTP ERROR:", err));
-
-//   await transporter.sendMail(mailOptions);
-//   console.log("Mail sent");
-// } catch (error) {
-//   console.error("Mail error:", error.message);
-// }
     console.log("Email sent successfully:", link);
     res.json({ status: "Reset Link Sent" });
 
@@ -184,43 +151,11 @@ app.post('/resend-verification', async (req, res) => {
     return res.status(400).json({ message: "User not found or already validated." });
   }
 
-  // Generate a new validation token
   const validationToken = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: "1d" });
   user.validationToken = validationToken;
   await user.save();
 
   const link = `https://mgpost.onrender.com/api/validate/${validationToken}`;
-
-// let transporter = nodemailer.createTransport({
-//   host: "smtp-relay.brevo.com",
-//   port: 587,
-//   secure: false,
-//   auth: {
-//     user: process.env.BREVO_USER,
-//     pass: process.env.BREVO_PASS,
-//   },
-// });
-
-
-
-//   const mailOptions = {
-//     from: process.env.MAIL_USERNAME,
-//     to: email,
-//     subject: "Account Verification",
-//     html: `Click this link to verify your account: <a href="${link}">${link}</a>`,
-//   };
-
-//   try {
-//     await transporter.verify()
-//   .then(() => console.log("SMTP READY"))
-//   .catch(err => console.log("SMTP ERROR:", err));
-
-//   await transporter.sendMail(mailOptions);
-//   console.log("Mail sent");
-// } catch (error) {
-//   console.error("Mail error:", error.message);
-// }
-// ;
 
   try {
   await sendEmail({

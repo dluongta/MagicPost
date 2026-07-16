@@ -89,36 +89,6 @@ user.verificationExpiresAt = new Date(Date.now() + 3 * 60 * 1000);
   console.error("Brevo error:", error.response?.body || error.message);
 }
 
-// let transporter = nodemailer.createTransport({
-//   host: "smtp-relay.brevo.com",
-//   port: 587,
-//   secure: false,
-//   auth: {
-//     user: process.env.BREVO_USER,
-//     pass: process.env.BREVO_PASS,
-//   },
-// });
-
-
-
-
-//   const mailOptions = {
-//     from: process.env.MAIL_USERNAME,
-//     to: email,
-//     subject: "Account Verification",
-//     html: `<p>Click this link to verify your account: <a href="${link}">${link}</a>.</p>
-//      <p>Your Verification Is Expired After 3 Minutes.</p>`,
-//   };
-
-//   try {
-//   await transporter.sendMail(mailOptions);
-//   console.log("Mail sent");
-// } catch (error) {
-//   console.error("Mail error:", error.message);
-// }
-
-  
-  // Redirect user if account is not validated
   if (!user.isValidated) {
     return res.status(201).json({
       message: "Registration successful! Check your email to verify your account."

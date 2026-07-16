@@ -1,8 +1,7 @@
 import asyncHandler from 'express-async-handler';
 import generateToken from '../utils/generateToken.js';
 import User from '../models/userModel.js';
-import jwt from 'jsonwebtoken'; // Ensure this import is present
-import nodemailer from 'nodemailer'; // Ensure this import is present
+import jwt from 'jsonwebtoken';
 import sendEmail from "../utils/sendEmail.js";
 
 

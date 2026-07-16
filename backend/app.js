@@ -11,7 +11,6 @@ import { Server } from "socket.io";
 import chatRoomRoutes from "./routes/chatRoom.js";
 import chatMessageRoutes from "./routes/chatMessage.js";
 import jwt from 'jsonwebtoken';
-import nodemailer from 'nodemailer';
 import User from './models/userModel.js';
 import bcrypt from 'bcryptjs';
 import sendEmail from './utils/sendEmail.js';
